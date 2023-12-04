@@ -15,16 +15,15 @@ public class CreateWord : Singleton<CreateWord>
     public bool isMorseEnd;
     public bool isMusicEnd;
     public bool isChangeAlphabet;
-    public int currentWordIndex;
+
+    public int offsetWordIndex;
 
     private string map;
     private string morseCode;
 
     private void Start()
     {
-        currentWordIndex = -1;
         map = Singleton<PlayManager>.instance.mapData;
-
         isMorseEnd = true;
     }
 
@@ -33,8 +32,7 @@ public class CreateWord : Singleton<CreateWord>
         if (Singleton<PlayManager>.instance.isCountdown && isMorseEnd)
         {
             isMorseEnd = false;
-            currentWordIndex++;
-            if (currentWordIndex < map.Length) Singleton<PlayManager>.instance.morseCode = Singleton<MorseCode>.instance.morse[map[currentWordIndex]];
+            if (offsetWordIndex < map.Length) Singleton<PlayManager>.instance.offsetMorseCode = Singleton<MorseCode>.instance.morse[map[offsetWordIndex]];
             ShowAlphabet();
         }
     }
@@ -43,10 +41,10 @@ public class CreateWord : Singleton<CreateWord>
     {
         isChangeAlphabet = true;
 
-        if (currentWordIndex < map.Length)
+        if (offsetWordIndex < map.Length)
         {
             morseCode = "";
-            foreach (char c in Singleton<MorseCode>.instance.morse[map[currentWordIndex]])
+            foreach (char c in Singleton<MorseCode>.instance.morse[map[offsetWordIndex]])
             {
                 morseCode += c;
                 morseCode += " ";
@@ -54,9 +52,9 @@ public class CreateWord : Singleton<CreateWord>
             Code.text = morseCode;
         }
 
-        if (currentWordIndex < map.Length)
+        if (offsetWordIndex < map.Length)
         {
-            FirstWord.text = map[currentWordIndex].ToString();
+            FirstWord.text = map[offsetWordIndex].ToString();
         }
         else
         {
@@ -64,16 +62,16 @@ public class CreateWord : Singleton<CreateWord>
             isMusicEnd = true;
         }
 
-        if (currentWordIndex + 1 < map.Length) SecondWord.text = map[currentWordIndex + 1].ToString();
+        if (offsetWordIndex + 1 < map.Length) SecondWord.text = map[offsetWordIndex + 1].ToString();
         else SecondWord.text = " ";
 
-        if (currentWordIndex + 2 < map.Length) ThirdWord.text = map[currentWordIndex + 2].ToString();
+        if (offsetWordIndex + 2 < map.Length) ThirdWord.text = map[offsetWordIndex + 2].ToString();
         else ThirdWord.text = " ";
 
-        if (currentWordIndex + 3 < map.Length) FourthWord.text = map[currentWordIndex + 3].ToString();
+        if (offsetWordIndex + 3 < map.Length) FourthWord.text = map[offsetWordIndex + 3].ToString();
         else FourthWord.text = " ";
 
-        if (currentWordIndex + 4 < map.Length) FifthWord.text = map[currentWordIndex + 4].ToString();
+        if (offsetWordIndex + 4 < map.Length) FifthWord.text = map[offsetWordIndex + 4].ToString();
         else FifthWord.text = " ";
     }
 }

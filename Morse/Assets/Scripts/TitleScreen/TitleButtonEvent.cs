@@ -13,16 +13,16 @@ public class TitleButtonEvent : MonoBehaviour
 
     public void OpenSettingWindow()
     {
-        GameObject window = Instantiate(Singleton<TitleManager>.instance.Settings, Singleton<WindowManager>.instance.Parent);
+        GameObject window = Singleton<TitleManager>.instance.Settings;
         window.SetActive(true);
-        Singleton<WindowManager>.instance.OpenWindowStack.Push(window);
+        Singleton<WindowManager>.instance.ActiveWindow = window;
     }
 
     public void OpenHelperWindow()
     {
-        GameObject window = Instantiate(Singleton<TitleManager>.instance.Helper, Singleton<WindowManager>.instance.Parent);
+        GameObject window = Singleton<TitleManager>.instance.Helper;
         window.SetActive(true);
-        Singleton<WindowManager>.instance.OpenWindowStack.Push(window);
+        Singleton<WindowManager>.instance.ActiveWindow = window;
     }
 
     public void Quit()

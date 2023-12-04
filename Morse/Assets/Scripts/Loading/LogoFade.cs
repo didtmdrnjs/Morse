@@ -14,11 +14,7 @@ public class LogoFade : MonoBehaviour
 
     private void Start()
     {
-        FadeIn();
-    }
-
-    private void FadeIn()
-    {
+        Cursor.visible = false;
         StartCoroutine(IFadeIn());
     }
 

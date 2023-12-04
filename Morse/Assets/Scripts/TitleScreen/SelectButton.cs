@@ -14,8 +14,11 @@ public class SelectButton : MonoBehaviour
 
     private void Update()
     {
-        MovePointer();
-        ActiveButton();
+        if (Singleton<WindowManager>.instance.ActiveWindow == null)
+        {
+            MovePointer();
+            ActiveButton();
+        }
     }
 
     private void MovePointer() { 

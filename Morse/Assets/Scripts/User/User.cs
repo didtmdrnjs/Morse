@@ -12,8 +12,6 @@ public class User : Singleton<User>
         userInfo = new UserInfo();
         userSetting = new UserSetting();
     }
-
-
 }
 
 public class UserInfo
