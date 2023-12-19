@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Play.unity
     guid: 2a34ff7956b30a344acffe6016f7ce50
+  - enabled: 1
+    path: Assets/Scenes/Correction.unity
+    guid: f2c4d6527928dbd4d8cebf84ce6460d2
   m_configObjects: {}

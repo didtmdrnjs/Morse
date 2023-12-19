@@ -21,6 +21,7 @@ public class PlayManager : Singleton<PlayManager>
 
     private void Start()
     {
+        Singleton<GameManager>.instance.isPlayMusic = true;
         MusicInfo musicInfo = Singleton<MusicInfo>.instance;
         
         bpm = musicInfo.musicList.datas[musicInfo.currentMusicIndex].bpm;

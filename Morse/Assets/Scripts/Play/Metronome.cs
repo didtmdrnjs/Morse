@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TerrainTools;
 
-public class Metronome : Singleton<Metronome>
+public class Metronome : MonoBehaviour
 {
     [SerializeField] private AudioClip Short;
     [SerializeField] private AudioClip Long;
@@ -76,22 +76,22 @@ public class Metronome : Singleton<Metronome>
         {
             Singleton<PlayManager>.instance.offsetTime -= 60 / bpm;
 
-            Singleton<PlayManager>.instance.offsetMorseIdx++;
-
-            if (Singleton<PlayManager>.instance.offsetMorseIdx == Singleton<PlayManager>.instance.offsetMorseCode.Length)
-            {
-                StartCoroutine(Later());
-                Singleton<PlayManager>.instance.offsetMorseIdx = 0;
-            }
+            StartCoroutine(LaterChangeIdx());
         }
     }
 
-    IEnumerator Later()
+    IEnumerator LaterChangeIdx()
     {
         yield return new WaitForSeconds(60 / bpm / 2);
-        Singleton<CreateWord>.instance.offsetWordIndex++;
-        Singleton<CreateWord>.instance.isMorseEnd = true;
-        Singleton<CreateWord>.instance.isChangeAlphabet = false;
+        Singleton<PlayManager>.instance.offsetMorseIdx++;
+
+        if (Singleton<PlayManager>.instance.offsetMorseIdx == Singleton<PlayManager>.instance.offsetMorseCode.Length)
+        {
+            Singleton<CreateWord>.instance.offsetWordIndex++;
+            Singleton<CreateWord>.instance.isMorseEnd = true;
+            Singleton<CreateWord>.instance.isChangeAlphabet = false;
+            Singleton<PlayManager>.instance.offsetMorseIdx = 0;
+        }
     }
 
     IEnumerator Finish()
@@ -99,6 +99,7 @@ public class Metronome : Singleton<Metronome>
         yield return new WaitForSeconds(1.5f);
 
         Singleton<MusicInfo>.instance.isLoadScene = true;
+        Singleton<GameManager>.instance.isPlayMusic = false;
         SceneManager.LoadScene("SelectMusic");
     }
 }
