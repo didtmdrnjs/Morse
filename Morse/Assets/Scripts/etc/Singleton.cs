@@ -8,6 +8,6 @@ public class Singleton<T> : MonoBehaviour where T : class
 
     protected void Awake()
     {
-        Singleton<T>.instance = (this as T);
+        instance = (this as T);
     }
 }

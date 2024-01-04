@@ -11,6 +11,7 @@ public class PushKey : MonoBehaviour
         {
             
         }
+
         if (Input.GetKeyDown(KeyCode.J))
         {
             

@@ -36,12 +36,9 @@ public class MusicInfo : Singleton<MusicInfo>
         {
             Directory.CreateDirectory(musicDirectory);
             StartCoroutine(DownLoadMusicData());
-            totalLoadElement = 4;
+            totalLoadElement = 3;
         }
-        else
-        {
-            StartCoroutine(ReadJson());
-        }
+        else StartCoroutine(ReadJson());
 
         currentMusicIndex = 0;
         difficulty = 0;
@@ -103,17 +100,10 @@ public class MusicInfo : Singleton<MusicInfo>
             data.name = musicList.datas[i].name;
             data.language = musicList.datas[i].language;
             data.bpm = musicList.datas[i].bpm;
-            
-            string musicData = JsonUtility.ToJson(data);
-            File.WriteAllText(path + "/MusicData.Json", musicData);
-
-            data = new MusicData();
-
-            data.id = musicList.datas[i].id;
             data.mapData = musicList.datas[i].mapData;
 
-            string mapData = JsonUtility.ToJson(data);
-            File.WriteAllText(path + "/MapData.Json", mapData);
+            string musicData = JsonUtility.ToJson(data);
+            File.WriteAllText(path + "/MusicData.Json", musicData);
 
             File.WriteAllBytes(path + "/" + musicList.datas[i].name + ".png", musicList.datas[i].pngBytes);
         }
@@ -144,11 +134,6 @@ public class MusicInfo : Singleton<MusicInfo>
             musicList.datas[data.id].name = data.name;
             musicList.datas[data.id].language = data.language;
             musicList.datas[data.id].bpm = data.bpm;
-
-            json = File.ReadAllText(dirPath + "/MapData.Json");
-            data = JsonUtility.FromJson<MusicData>(json);
-
-            musicList.datas[data.id].id = data.id;
             musicList.datas[data.id].mapData = data.mapData;
 
             musicList.datas[data.id].pngBytes = File.ReadAllBytes(dirPath + "/" + fileName + ".png");

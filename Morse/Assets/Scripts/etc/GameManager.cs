@@ -11,6 +11,12 @@ public class GameManager : Singleton<GameManager>
     public string lastSceneName;
     public float offset;
 
+    private void Start()
+    {
+        if (instance != this) Destroy(gameObject);
+        else DontDestroyOnLoad(gameObject);
+    }
+
     private void Update()
     {
         StartCorrection();

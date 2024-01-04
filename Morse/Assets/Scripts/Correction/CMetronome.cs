@@ -68,13 +68,13 @@ public class CMetronome : Singleton<CMetronome>
     {
         if (inputCount > noteMax) return;
 
-        if (!isFirstClick)
-        {
-            isFirstClick = true;
-            return;
-        }
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            if (!isFirstClick)
+            {
+                isFirstClick = true;
+                return;
+            }
             float subTime = time - startTimes[inputCount++];
             sumTime += subTime;
 
@@ -85,7 +85,6 @@ public class CMetronome : Singleton<CMetronome>
     private IEnumerator CorrectionEnd()
     {
         Singleton<GameManager>.instance.offset = sumTime / 30;
-        Debug.Log(Singleton<GameManager>.instance.offset);
         yield return new WaitForSeconds(2);
         SceneManager.LoadScene(Singleton<GameManager>.instance.lastSceneName);
         Singleton<GameManager>.instance.isPlayMusic = false;
