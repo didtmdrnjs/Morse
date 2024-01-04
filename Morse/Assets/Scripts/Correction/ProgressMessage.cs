@@ -14,6 +14,7 @@ public class ProgressMessage : MonoBehaviour
 
     private void Start()
     {
+        Singleton<GameManager>.instance.isPlayMusic = true;
         messages = new string[] {
             "안녕하세요 " + Singleton<User>.instance.userInfo.name + "님",
             "지금부터 보정을 시작하도록 하겠습니다",

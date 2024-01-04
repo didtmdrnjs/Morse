@@ -28,7 +28,11 @@ public class User : Singleton<User>
             Directory.CreateDirectory(path);
             Singleton<TitleManager>.instance.InputName.SetActive(true);
         }
-        else StartCoroutine(ReadUser());
+        else
+        {
+            Singleton<TitleManager>.instance.isEndWriteUser = true;
+            StartCoroutine(ReadUser());
+        }
     }
 
     IEnumerator ReadUser()

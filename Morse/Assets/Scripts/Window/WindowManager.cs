@@ -8,7 +8,7 @@ public class WindowManager : Singleton<WindowManager>
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && ActiveWindow != null)
         {
             ActiveWindow.SetActive(false);
             ActiveWindow = null;

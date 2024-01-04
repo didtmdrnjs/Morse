@@ -11,6 +11,7 @@ public class KeyEvent : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            Singleton<GameManager>.instance.isPlayMusic = true;
             SceneManager.LoadScene("Play");
         }
 
@@ -25,11 +26,6 @@ public class KeyEvent : MonoBehaviour
         {
             if (Options.activeSelf) Options.SetActive(false);
             else Options.SetActive(true);
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            SceneManager.LoadScene("Correction");
         }
     }
 }
