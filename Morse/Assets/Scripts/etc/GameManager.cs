@@ -9,6 +9,7 @@ public class GameManager : Singleton<GameManager>
 {
     public bool isPlayMusic;
     public string lastSceneName;
+    public float offset;
 
     private void Update()
     {

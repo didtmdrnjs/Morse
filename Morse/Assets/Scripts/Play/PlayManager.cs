@@ -17,8 +17,6 @@ public class PlayManager : Singleton<PlayManager>
     public char[] offsetMorseCode;
     public int offsetMorseIdx;
 
-    public float offset;
-
     private void Start()
     {
         Singleton<GameManager>.instance.isPlayMusic = true;
@@ -30,7 +28,7 @@ public class PlayManager : Singleton<PlayManager>
         originalTime = 0;
         offsetTime = 0;
 
-        offset = 0.35f;
+        Singleton<GameManager>.instance.offset = 0.35f;
     }
 
     private void Update()
@@ -43,7 +41,7 @@ public class PlayManager : Singleton<PlayManager>
     IEnumerator WaitOffset()
     {
         isStartOffset = true;
-        yield return new WaitForSeconds(offset);
+        yield return new WaitForSeconds(Singleton<GameManager>.instance.offset);
         isWaitOffset = true;
     }
 }
