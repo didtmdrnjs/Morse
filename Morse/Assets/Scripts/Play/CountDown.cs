@@ -21,14 +21,12 @@ public class CountDown : MonoBehaviour
             Singleton<PlayManager>.instance.isCountdown = true;
             gameObject.SetActive(false);
         }
-        else
-        {
-            gameObject.GetComponent<TextMeshProUGUI>().text = count.ToString();
 
-            yield return new WaitForSeconds(1);
+        gameObject.GetComponent<TextMeshProUGUI>().text = count.ToString();
+        
+        yield return new WaitForSeconds(1);
 
-            count--;
-            StartCoroutine(Countdown());
-        }
+        count--;
+        StartCoroutine(Countdown());
     }
 }
