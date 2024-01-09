@@ -72,8 +72,6 @@ public class Metronome : MonoBehaviour
         if (Singleton<PlayManager>.instance.offsetTime >= 60 / bpm)
         {
             Singleton<PlayManager>.instance.offsetTime -= 60 / bpm;
-            Debug.Log(Singleton<PlayManager>.instance.currentCode);
-            Debug.Log(Singleton<PlayManager>.instance.isCountdown);
             StartCoroutine(LaterChangeIdx());
         }
     }

@@ -25,14 +25,12 @@ public class CreateWord : Singleton<CreateWord>
     {
         map = Singleton<PlayManager>.instance.mapData;
         isMorseEnd = true;
-        offsetWordIndex = 0;
     }
 
     private void Update()
     {
         if (Singleton<PlayManager>.instance.isCountdown && isMorseEnd)
         {
-            Debug.Log("sdlfjskdf0");
             isMorseEnd = false;
             if (offsetWordIndex < map.Length)
             {

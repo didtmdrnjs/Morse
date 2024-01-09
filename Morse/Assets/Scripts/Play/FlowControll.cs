@@ -12,10 +12,6 @@ public class FlowControll : MonoBehaviour
 
     private void Update()
     {
-        if (Singleton<PlayManager>.instance.isFadeOut)
-        {
-            Singleton<PlayManager>.instance.isFadeOut = false;
-            transform.GetChild(1).gameObject.SetActive(true);
-        }
+        if (Singleton<PlayManager>.instance.isFadeOut) transform.GetChild(1).gameObject.SetActive(true);
     }
 }
