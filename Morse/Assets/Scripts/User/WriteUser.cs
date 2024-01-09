@@ -23,7 +23,7 @@ public class WriteUser : MonoBehaviour
 
     private void WriteUserData()
     {
-        string path = Singleton<User>.instance.path;
+        string path = User.instance.path;
 
         UserInfo infoData = new UserInfo();
         UserSetting settingData = new UserSetting();

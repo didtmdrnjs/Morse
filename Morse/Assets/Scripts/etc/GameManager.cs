@@ -5,16 +5,22 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
     public bool isPlayMusic;
     public string lastSceneName;
     public float offset;
 
     private void Start()
     {
-        if (instance != this) Destroy(gameObject);
-        else DontDestroyOnLoad(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this) Destroy(gameObject);
     }
 
     private void Update()

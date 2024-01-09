@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class User : Singleton<User>
+public class User : MonoBehaviour
 {
+    public static User instance;
+
     public UserInfo userInfo;
     public UserSetting userSetting;
 
@@ -12,8 +14,12 @@ public class User : Singleton<User>
 
     private void Start()
     {
-        if (instance != this) Destroy(gameObject);
-        else DontDestroyOnLoad(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this) Destroy(gameObject);
         
         userInfo = new UserInfo();
         userSetting = new UserSetting();

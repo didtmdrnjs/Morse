@@ -11,7 +11,7 @@ public class KeyEvent : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            Singleton<GameManager>.instance.isPlayMusic = true;
+            GameManager.instance.isPlayMusic = true;
             SceneManager.LoadScene("Play");
         }
 

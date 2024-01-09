@@ -20,7 +20,7 @@ public class PlayManager : Singleton<PlayManager>
 
     private void Start()
     {
-        Singleton<GameManager>.instance.isPlayMusic = true;
+        GameManager.instance.isPlayMusic = true;
         MusicInfo musicInfo = Singleton<MusicInfo>.instance;
 
         bpm = musicInfo.musicList.datas[musicInfo.currentMusicIndex].bpm;
@@ -40,7 +40,7 @@ public class PlayManager : Singleton<PlayManager>
     IEnumerator WaitOffset()
     {
         isStartOffset = true;
-        yield return new WaitForSeconds(Singleton<GameManager>.instance.offset);
+        yield return new WaitForSeconds(GameManager.instance.offset);
         isWaitOffset = true;
     }
 }

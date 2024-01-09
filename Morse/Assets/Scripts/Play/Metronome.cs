@@ -96,7 +96,7 @@ public class Metronome : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         Singleton<PlayManager>.instance.isCountdown = false;
         Singleton<MusicInfo>.instance.isLoadScene = true;
-        Singleton<GameManager>.instance.isPlayMusic = false;
+        GameManager.instance.isPlayMusic = false;
         SceneManager.LoadScene("SelectMusic");
     }
 }
