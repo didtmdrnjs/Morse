@@ -14,11 +14,12 @@ public class CMetronome : Singleton<CMetronome>
     private int noteMax;
     private int noteCount;
     private int inputCount;
+    private int failCount;
 
     private float bpm;
     private float time;
 
-    private float[] startTimes = new float[31];
+    private float[] startTimes;
 
     public float sumTime;
     
@@ -41,12 +42,12 @@ public class CMetronome : Singleton<CMetronome>
 
     private void Reset()
     {
-        bpm = 120;
-        noteMax = 30;
+        bpm = 80;
+        noteMax = 20;
         noteCount = 0;
         inputCount = 0;
         isFirstClick = false;
-        startTimes = new float[31];
+        startTimes = new float[21];
     }
 
     private void metronome()
@@ -60,7 +61,17 @@ public class CMetronome : Singleton<CMetronome>
             if (noteCount == noteMax) StartCoroutine(CorrectionEnd());
             else if (noteCount > noteMax) return;
 
-            if (isFirstClick) startTimes[noteCount++] = time;
+            if (isFirstClick)
+            {
+                if (inputCount < noteCount)
+                {
+                    inputCount++;
+                    failCount++;
+                }
+                else failCount = 0;
+                
+                startTimes[noteCount++] = time;
+            }
         }
     }
 
@@ -75,16 +86,20 @@ public class CMetronome : Singleton<CMetronome>
                 isFirstClick = true;
                 return;
             }
-            float subTime = time - startTimes[inputCount++];
-            sumTime += subTime;
 
-            if (Mathf.Abs(inputCount - noteCount) == 3) isAgain = true;
+            if (inputCount < noteCount) {
+                float subTime = time - startTimes[inputCount++];
+                sumTime += subTime;
+            }
+            else failCount++;
+
+            if (failCount == 4) isAgain = true;
         }
     }
 
     private IEnumerator CorrectionEnd()
     {
-        Singleton<GameManager>.instance.offset = sumTime / 30;
+        Singleton<GameManager>.instance.offset = sumTime / 20;
         yield return new WaitForSeconds(2);
         SceneManager.LoadScene(Singleton<GameManager>.instance.lastSceneName);
         Singleton<GameManager>.instance.isPlayMusic = false;
