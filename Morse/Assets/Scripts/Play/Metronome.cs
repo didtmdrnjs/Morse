@@ -33,11 +33,14 @@ public class Metronome : MonoBehaviour
     {
         if (Singleton<CreateWord>.instance.isMusicEnd)
         {
-            Singleton<CreateWord>.instance.isMusicEnd = false;
+            Singleton<PlayManager>.instance.isCountdown = false;
             StartCoroutine(Finish());
         }
 
-        if (Singleton<CreateWord>.instance.isChangeAlphabet && Singleton<PlayManager>.instance.isCountdown) CountMorse();
+        if (Singleton<CreateWord>.instance.isChangeAlphabet && Singleton<PlayManager>.instance.isCountdown)
+        {
+            CountMorse();
+        }
     }
 
     private void CountMorse()
@@ -72,8 +75,7 @@ public class Metronome : MonoBehaviour
         if (Singleton<PlayManager>.instance.offsetTime >= 60 / bpm)
         {
             Singleton<PlayManager>.instance.offsetTime -= 60 / bpm;
-            Debug.Log(Singleton<PlayManager>.instance.currentCode);
-            Debug.Log(Singleton<PlayManager>.instance.isCountdown);
+
             StartCoroutine(LaterChangeIdx());
         }
     }
@@ -83,20 +85,19 @@ public class Metronome : MonoBehaviour
         yield return new WaitForSeconds(60 / bpm / 2);
         Singleton<PlayManager>.instance.offsetMorseIdx++;
 
-        if (Singleton<PlayManager>.instance.offsetMorseIdx >= Singleton<PlayManager>.instance.offsetMorseCode.Length)
+        if (Singleton<PlayManager>.instance.offsetMorseIdx == Singleton<PlayManager>.instance.offsetMorseCode.Length)
         {
             Singleton<CreateWord>.instance.offsetWordIndex++;
             Singleton<CreateWord>.instance.isMorseEnd = true;
             Singleton<CreateWord>.instance.isChangeAlphabet = false;
             Singleton<PlayManager>.instance.offsetMorseIdx = 0;
         }
-        Singleton<PlayManager>.instance.currentCode = Singleton<PlayManager>.instance.offsetMorseCode[Singleton<PlayManager>.instance.offsetMorseIdx];
     }
 
     IEnumerator Finish()
     {
         yield return new WaitForSeconds(1.5f);
-        Singleton<PlayManager>.instance.isCountdown = false;
+
         Singleton<MusicInfo>.instance.isLoadScene = true;
         Singleton<GameManager>.instance.isPlayMusic = false;
         SceneManager.LoadScene("SelectMusic");
