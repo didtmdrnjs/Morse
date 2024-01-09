@@ -16,19 +16,18 @@ public class PlayManager : Singleton<PlayManager>
 
     public char[] offsetMorseCode;
     public int offsetMorseIdx;
+    public char currentCode;
 
     private void Start()
     {
         Singleton<GameManager>.instance.isPlayMusic = true;
         MusicInfo musicInfo = Singleton<MusicInfo>.instance;
-        
+
         bpm = musicInfo.musicList.datas[musicInfo.currentMusicIndex].bpm;
         mapData = musicInfo.musicList.datas[musicInfo.currentMusicIndex].mapData;
 
         originalTime = 0;
         offsetTime = 0;
-
-        Singleton<GameManager>.instance.offset = 0.35f;
     }
 
     private void Update()
