@@ -18,6 +18,14 @@ public class PlayManager : Singleton<PlayManager>
     public int offsetMorseIdx;
     public char currentCode;
 
+    public int perfectCount;
+    public int greateCount;
+    public int goodCount;
+    public int failCount;
+
+    public bool isInput;
+    public bool isFail;
+
     private void Start()
     {
         GameManager.instance.isPlayMusic = true;

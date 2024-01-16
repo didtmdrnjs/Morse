@@ -79,8 +79,9 @@ public class Metronome : MonoBehaviour
     IEnumerator LaterChangeIdx()
     {
         yield return new WaitForSeconds(60 / bpm / 2);
+        if (Singleton<PlayManager>.instance.currentCode != ' ' && !Singleton<PlayManager>.instance.isInput) Singleton<PlayManager>.instance.isFail = true;
         Singleton<PlayManager>.instance.offsetMorseIdx++;
-
+        Singleton<PlayManager>.instance.isInput = false;
         if (Singleton<PlayManager>.instance.offsetMorseIdx >= Singleton<PlayManager>.instance.offsetMorseCode.Length)
         {
             Singleton<CreateWord>.instance.offsetWordIndex++;
