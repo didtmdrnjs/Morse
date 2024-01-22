@@ -314,14 +314,13 @@ MonoBehaviour:
   isWaitOffset: 0
   offsetMorseCode: 
   offsetMorseIdx: 0
-  currentCode: 0
+  currentCode: 101
   perfectCount: 0
   greateCount: 0
   goodCount: 0
   failCount: 0
-  outputCount: 0
-  inputCount: 0
-  isinput: 0
+  isInput: 0
+  isFail: 0
 --- !u!114 &217544717
 MonoBehaviour:
   m_ObjectHideFlags: 0

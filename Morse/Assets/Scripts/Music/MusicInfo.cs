@@ -5,8 +5,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class MusicInfo : Singleton<MusicInfo>
+public class MusicInfo : MonoBehaviour
 {
+    public static MusicInfo instance;
+
     private const string musicList_url = "https://script.google.com/macros/s/AKfycbx43AuyPl3PKX9n-0GPbsLf69azaLjGxqZXg8WH-HQv2hkr3tlT_AP5zURieT12yP7B/exec";
     private const string musicData_url = "https://script.google.com/macros/s/AKfycbyy78Cui9ci2ZB5hUYmd2nG8ukhm033MFNO9OXtjlMA_C6eq9M1wF1Vlg44y1vLYvNV/exec";
 
@@ -18,17 +20,24 @@ public class MusicInfo : Singleton<MusicInfo>
     public int difficulty;
     public Mode mode;
 
-    public bool isMove;
-    public bool isChangeMusic;
     public bool isLoadScene;
 
     public float currentLoadElement;
     public float totalLoadElement;
     public bool isLoadTotal;
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(gameObject);
+    }
+
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
         musicDirectory = Application.dataPath + "/Music";
         musicList = new MusicList();
 
@@ -45,6 +54,17 @@ public class MusicInfo : Singleton<MusicInfo>
         mode = Mode.OneWord;
 
         currentLoadElement = 0;
+    }
+
+    private void Update()
+    {
+        IndexCheck();
+    }
+
+    public void IndexCheck()
+    {
+        if (currentMusicIndex < 0) currentMusicIndex = musicList.datas.Count - 1;
+        if (currentMusicIndex == musicList.datas.Count) currentMusicIndex = 0;
     }
 
     IEnumerator DownLoadMusicData()
@@ -93,7 +113,6 @@ public class MusicInfo : Singleton<MusicInfo>
             Directory.CreateDirectory(path);
 
             MusicData data;
-                
             data = new MusicData();
 
             data.id = musicList.datas[i].id;
@@ -104,7 +123,6 @@ public class MusicInfo : Singleton<MusicInfo>
 
             string musicData = JsonUtility.ToJson(data);
             File.WriteAllText(path + "/MusicData.Json", musicData);
-
             File.WriteAllBytes(path + "/" + musicList.datas[i].name + ".png", musicList.datas[i].pngBytes);
         }
         currentLoadElement++;
@@ -135,7 +153,6 @@ public class MusicInfo : Singleton<MusicInfo>
             musicList.datas[data.id].language = data.language;
             musicList.datas[data.id].bpm = data.bpm;
             musicList.datas[data.id].mapData = data.mapData;
-
             musicList.datas[data.id].pngBytes = File.ReadAllBytes(dirPath + "/" + fileName + ".png");
 
             Texture2D texture = new Texture2D(1, 1);
@@ -159,19 +176,12 @@ public class MusicInfo : Singleton<MusicInfo>
             string[] DInfo = data[i].Split(" ");
 
             MusicData musicData = new MusicData();
-
             musicData.id = int.Parse(LInfo[0]);
-            
             musicData.name = LInfo[1];
-            
             StartCoroutine(GetTexture(i, LInfo[2]));
-
             musicData.language = DInfo[1];
-
             musicData.bpm = int.Parse(DInfo[2]);
-
             musicData.mapData = DInfo[3];
-
             musicList.datas.Add(musicData);
         }
         currentLoadElement++;

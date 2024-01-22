@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CMetronome : Singleton<CMetronome>
+public class CMetronome : MonoBehaviour
 {
+    public static CMetronome instance;
+
     public AudioSource source;
     public bool isEndGuide;
     public bool isAgain;
@@ -22,11 +24,17 @@ public class CMetronome : Singleton<CMetronome>
     private float[] startTimes;
 
     public float sumTime;
-    
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
+    }
+
     private void Start()
     {
-        Reset();
         source = GetComponent<AudioSource>();
+        Reset();
     }
 
     private void Update()
@@ -68,7 +76,6 @@ public class CMetronome : Singleton<CMetronome>
                     inputCount++;
                     failCount++;
                 }
-                else failCount = 0;
                 
                 startTimes[noteCount++] = time;
             }
@@ -100,9 +107,10 @@ public class CMetronome : Singleton<CMetronome>
     private IEnumerator CorrectionEnd()
     {
         GameManager.instance.offset = sumTime / 20;
+        User.instance.WriteUserData();
         yield return new WaitForSeconds(2);
         SceneManager.LoadScene(GameManager.instance.lastSceneName);
         GameManager.instance.isPlayMusic = false;
-        if (GameManager.instance.lastSceneName == "SelectMusic") Singleton<MusicInfo>.instance.isLoadScene = true;
+        if (GameManager.instance.lastSceneName == "SelectMusic") MusicInfo.instance.isLoadScene = true;
     }
 }

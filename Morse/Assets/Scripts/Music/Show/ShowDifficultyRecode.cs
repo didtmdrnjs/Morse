@@ -9,7 +9,7 @@ public class ShowDifficultyRecode : MonoBehaviour
 
     private void ShowRecode()
     {
-        if (Singleton<MusicInfo>.instance.difficulty == 0) {
+        if (MusicInfo.instance.difficulty == 0) {
             transform.GetChild(1).gameObject.SetActive(true);
             transform.GetChild(2).gameObject.SetActive(false);
         }

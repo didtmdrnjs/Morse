@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayManager : Singleton<PlayManager>
+public class PlayManager : MonoBehaviour
 {
+    public static PlayManager instance;
+
+    public Dictionary<char, char[]> morse;
+
+    private const char s = '¡¤';
+    private const char l = '¡ª';
+
     public float bpm;
-    public string mapData;
-    public float originalTime;
-    public float offsetTime;
+    public string map;
 
     public bool isFadeOut;
     public bool isCountdown;
@@ -18,29 +23,43 @@ public class PlayManager : Singleton<PlayManager>
     public int offsetMorseIdx;
     public char currentCode;
 
-    public int perfectCount;
-    public int greateCount;
-    public int goodCount;
-    public int failCount;
+    public float offsetTime;
 
     public bool isInput;
     public bool isFail;
 
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
+        morse = new Dictionary<char, char[]>()
+        {
+            {'A', new char[] {s, l} },
+            {'B', new char[] {l, s, s, s} },
+            {'C', new char[] {l, s, l, s} },
+            {'D', new char[] {l, s, s} },
+            {'E', new char[] {s} },
+            {' ', new char[] { ' ' } }
+        };
+    }
+
     private void Start()
     {
         GameManager.instance.isPlayMusic = true;
-        MusicInfo musicInfo = Singleton<MusicInfo>.instance;
+        MusicData data = MusicInfo.instance.musicList.datas[MusicInfo.instance.currentMusicIndex];
 
-        bpm = musicInfo.musicList.datas[musicInfo.currentMusicIndex].bpm;
-        mapData = musicInfo.musicList.datas[musicInfo.currentMusicIndex].mapData;
+        bpm = data.bpm;
+        map = data.mapData;
 
-        originalTime = 0;
-        offsetTime = 0;
+        currentCode = ' ';
+        GameManager.instance.perfectCount = 0;
+        GameManager.instance.greateCount = 0;
+        GameManager.instance.goodCount = 0;
+        GameManager.instance.failCount = 0;
     }
 
     private void Update()
     {
-        if (isCountdown) originalTime += Time.deltaTime;
         if (isCountdown && !isStartOffset) StartCoroutine(WaitOffset());
         if (isWaitOffset) offsetTime += Time.deltaTime;
     }
@@ -50,5 +69,20 @@ public class PlayManager : Singleton<PlayManager>
         isStartOffset = true;
         yield return new WaitForSeconds(GameManager.instance.offset);
         isWaitOffset = true;
+    }
+
+    public void ChangeIdx()
+    {
+        if (currentCode != ' ' && !isInput) isFail = true;
+        offsetMorseIdx++;
+        isInput = false;
+        if (offsetMorseIdx >= offsetMorseCode.Length)
+        {
+            CreateWord.instance.offsetWordIndex++;
+            CreateWord.instance.isMorseEnd = true;
+            offsetMorseIdx = 0;
+        }
+        if (CreateWord.instance.offsetWordIndex == map.Length) return;
+        currentCode = morse[map[CreateWord.instance.offsetWordIndex]][offsetMorseIdx];
     }
 }

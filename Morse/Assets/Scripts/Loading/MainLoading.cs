@@ -15,16 +15,16 @@ public class MainLoading : MonoBehaviour
 
     private void Update()
     {
-        if (Singleton<MusicInfo>.instance.isLoadTotal) StartCoroutine(Loading()); 
+        if (MusicInfo.instance.isLoadTotal) StartCoroutine(Loading()); 
     }
 
     IEnumerator Loading()
     {
-        Singleton<MusicInfo>.instance.isLoadTotal = false;
+        MusicInfo.instance.isLoadTotal = false;
 
         yield return new WaitForSeconds(0.5f);
 
-        for (float i = gameObject.GetComponent<Image>().fillAmount; i < Singleton<MusicInfo>.instance.currentLoadElement / Singleton<MusicInfo>.instance.totalLoadElement; i += 0.001f)
+        for (float i = gameObject.GetComponent<Image>().fillAmount; i < MusicInfo.instance.currentLoadElement / MusicInfo.instance.totalLoadElement; i += 0.001f)
         {
             yield return new WaitForSeconds(0.01f);
             gameObject.GetComponent<Image>().fillAmount = (float)Math.Round(i, 3);

@@ -14,7 +14,7 @@ public class SelectButton : MonoBehaviour
 
     private void Update()
     {
-        if (Singleton<WindowManager>.instance.ActiveWindow == null && Singleton<TitleManager>.instance.isEndWriteUser)
+        if (WindowManager.instance.ActiveWindow == null && Title.instance.isEndWriteUser)
         {
             MovePointer();
             ActiveButton();

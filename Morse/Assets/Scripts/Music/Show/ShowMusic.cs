@@ -14,65 +14,86 @@ public class ShowMusic : MonoBehaviour
     [SerializeField] private TextMeshProUGUI centerLanguage;
     [SerializeField] private TextMeshProUGUI rightLanguage;
 
-    private MusicInfo musicInfo;
-
+    private bool isMove;
+    private bool isChangeMusic;
     private int index;
+
+    private RectTransform rect;
+    private float speed;
+
+    private void Awake()
+    {
+        rect = GetComponent<RectTransform>();
+        speed = 5;
+    }
 
     private void Start()
     {
-        musicInfo = Singleton<MusicInfo>.instance;
-        index = musicInfo.currentMusicIndex;
+        index = MusicInfo.instance.currentMusicIndex;
     }
 
     private void Update()
     {
-        if (musicInfo.isChangeMusic) index = musicInfo.currentMusicIndex;
+        Change();
+        if (isChangeMusic) index = MusicInfo.instance.currentMusicIndex;
+        if (MusicInfo.instance.isLoadScene || (isChangeMusic && !isMove)) ShowMusicInfo();
+    }
 
-        if (musicInfo.isLoadScene || (musicInfo.isChangeMusic && !musicInfo.isMove)) ShowMusicInfo();
+    private void Change()
+    {
+        if (!isMove && Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            StartCoroutine(Move(1));
+            MusicInfo.instance.currentMusicIndex--;
+            isChangeMusic = true;
+        }
+        else if (!isMove && Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            StartCoroutine(Move(-1));
+            MusicInfo.instance.currentMusicIndex++;
+            isChangeMusic = true;
+        }
+    }
+
+    IEnumerator Move(int d)
+    {
+        isMove = true;
+        rect.anchorMin += new Vector2(d * speed / 100f, 0);
+        rect.anchorMax += new Vector2(d * speed / 100f, 0);
+        if (Mathf.Abs(rect.anchorMin.x) < 1)
+        {
+            yield return null;
+            StartCoroutine(Move(d));
+        }
+        else
+        {
+            isMove = false;
+            yield return new WaitForSeconds(0.001f);
+            rect.anchorMin = new Vector2(0, 0.085f);
+            rect.anchorMax = new Vector2(1, 0.875f);
+        }
     }
 
     public void ShowMusicInfo()
     {
-        MusicList musicList = musicInfo.musicList;
+        MusicList musicList = MusicInfo.instance.musicList;
+        int idx = 0;
 
-        if (index == 0)
-        {
-            int idx = musicInfo.musicList.datas.Count - 1;
-            
-            leftMusic.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = musicList.datas[idx].name;
-            leftMusic.transform.GetChild(1).GetComponent<Image>().sprite = musicList.datas[idx].image;
-
-            leftLanguage.text = musicList.datas[idx].language;
-        }
-        else
-        {
-            leftMusic.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = musicList.datas[index - 1].name;
-            leftMusic.transform.GetChild(1).GetComponent<Image>().sprite = musicList.datas[index - 1].image;
-
-            leftLanguage.text = musicList.datas[index - 1].language;
-        }
+        idx = index == 0 ? musicList.datas.Count - 1 : index - 1;
+        leftMusic.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = musicList.datas[idx].name;
+        leftMusic.transform.GetChild(1).GetComponent<Image>().sprite = musicList.datas[idx].image;
+        leftLanguage.text = musicList.datas[idx].language;
 
         centerMusic.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = musicList.datas[index].name;
         centerMusic.transform.GetChild(1).GetComponent<Image>().sprite = musicList.datas[index].image;
-
         centerLanguage.text = musicList.datas[index].language;
 
-        if (index == musicInfo.musicList.datas.Count - 1)
-        {
-            rightMusic.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = musicList.datas[0].name;
-            rightMusic.transform.GetChild(1).GetComponent<Image>().sprite = musicList.datas[0].image;
+        idx = index == musicList.datas.Count - 1 ? 0 : index + 1;
+        rightMusic.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = musicList.datas[idx].name;
+        rightMusic.transform.GetChild(1).GetComponent<Image>().sprite = musicList.datas[idx].image;
+        rightLanguage.text = musicList.datas[idx].language;
 
-            rightLanguage.text = musicList.datas[0].language;
-        }
-        else
-        {
-            rightMusic.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = musicList.datas[index + 1].name;
-            rightMusic.transform.GetChild(1).GetComponent<Image>().sprite = musicList.datas[index + 1].image;
-
-            rightLanguage.text = musicList.datas[index + 1].language;
-        }
-
-        musicInfo.isChangeMusic = false;
-        musicInfo.isLoadScene = false;
+        isChangeMusic = false;
+        MusicInfo.instance.isLoadScene = false;
     }
 }

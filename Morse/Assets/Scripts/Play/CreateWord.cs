@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class CreateWord : Singleton<CreateWord>
+public class CreateWord : MonoBehaviour
 {
+    public static CreateWord instance;
+
     [SerializeField] private TextMeshProUGUI FirstWord;
     [SerializeField] private TextMeshProUGUI SecondWord;
     [SerializeField] private TextMeshProUGUI ThirdWord;
@@ -14,28 +16,32 @@ public class CreateWord : Singleton<CreateWord>
 
     public bool isMorseEnd;
     public bool isMusicEnd;
-    public bool isChangeAlphabet;
 
     public int offsetWordIndex;
 
     private string map;
     private string morseCode;
 
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+        else Destroy(instance);
+    }
+
     private void Start()
     {
-        map = Singleton<PlayManager>.instance.mapData;
+        map = PlayManager.instance.map;
         isMorseEnd = true;
     }
 
     private void Update()
     {
-        if (Singleton<PlayManager>.instance.isCountdown && isMorseEnd)
+        if (PlayManager.instance.isCountdown && isMorseEnd)
         {
             isMorseEnd = false;
             if (offsetWordIndex < map.Length)
             {
-                Singleton<PlayManager>.instance.offsetMorseCode = Singleton<MorseCode>.instance.morse[map[offsetWordIndex]];
-                Singleton<PlayManager>.instance.currentCode = Singleton<PlayManager>.instance.offsetMorseCode[Singleton<PlayManager>.instance.offsetMorseIdx];
+                PlayManager.instance.offsetMorseCode = PlayManager.instance.morse[map[offsetWordIndex]];
             }   
             ShowAlphabet();
         }
@@ -43,12 +49,10 @@ public class CreateWord : Singleton<CreateWord>
 
     private void ShowAlphabet()
     {
-        isChangeAlphabet = true;
-
         if (offsetWordIndex < map.Length)
         {
             morseCode = "";
-            foreach (char c in Singleton<MorseCode>.instance.morse[map[offsetWordIndex]])
+            foreach (char c in PlayManager.instance.morse[map[offsetWordIndex]])
             {
                 morseCode += c;
                 morseCode += " ";

@@ -18,7 +18,7 @@ public class CountDown : MonoBehaviour
     {
         if (count == 0)
         {
-            Singleton<PlayManager>.instance.isCountdown = true;
+            PlayManager.instance.isCountdown = true;
             gameObject.SetActive(false);
         }
         else

@@ -15,7 +15,7 @@ public class WriteUser : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            Singleton<TitleManager>.instance.isEndWriteUser = true;
+            Title.instance.isEndWriteUser = true;
             WriteUserData();
             transform.parent.gameObject.SetActive(false);
         }
@@ -37,8 +37,8 @@ public class WriteUser : MonoBehaviour
 
         settingData.OneShortKey = KeyCode.F;
         settingData.OneLongKey = KeyCode.J;
-        settingData.TwoFirstShortKey = KeyCode.F;
-        settingData.TwoFirstLongKey = KeyCode.D;
+        settingData.TwoFirstShortKey = KeyCode.D;
+        settingData.TwoFirstLongKey = KeyCode.F;
         settingData.TwoSecondShortKey = KeyCode.J;
         settingData.TwoSecondLongKey = KeyCode.K;
         settingData.offset = 0;

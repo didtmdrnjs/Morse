@@ -15,14 +15,16 @@ public class Metronome : MonoBehaviour
     private float bpm;
     private string map;
 
+    private float originalTime;
+
     private int originalWordIndex;
     public char[] originalMorseCode;
     public int originalMorseIdx;
 
     private void Start()
     {
-        bpm = Singleton<PlayManager>.instance.bpm;
-        map = Singleton<PlayManager>.instance.mapData;
+        bpm = PlayManager.instance.bpm;
+        map = PlayManager.instance.map;
         originalWordIndex = 0;
         originalMorseIdx = 0;
         originalMorseCode = new char[] { ' ' };
@@ -31,28 +33,25 @@ public class Metronome : MonoBehaviour
 
     private void Update()
     {
-        if (Singleton<CreateWord>.instance.isMusicEnd)
-        {
-            Singleton<CreateWord>.instance.isMusicEnd = false;
-            StartCoroutine(Finish());
-        }
+        if (PlayManager.instance.isCountdown) originalTime += Time.deltaTime;
 
-        if (Singleton<CreateWord>.instance.isChangeAlphabet && Singleton<PlayManager>.instance.isCountdown) CountMorse();
+        if (CreateWord.instance.isMusicEnd) StartCoroutine(Finish());
+        else if (PlayManager.instance.isCountdown) CountMorse();
     }
 
     private void CountMorse()
     {
-        if (originalWordIndex < map.Length && Singleton<PlayManager>.instance.originalTime >= 60 / bpm)
+        if (originalWordIndex < map.Length && originalTime >= 60 / bpm)
         {
-            Singleton<PlayManager>.instance.originalTime -= 60 / bpm;
+            originalTime -= 60 / bpm;
 
-            if (Singleton<MorseCode>.instance.morse[map[originalWordIndex]][originalMorseIdx] == '，')
+            if (PlayManager.instance.morse[map[originalWordIndex]][originalMorseIdx] == '，')
             {
                 audioSource.clip = Short;
                 audioSource.pitch = 0.8f;
                 audioSource.Play();
             }
-            else if (Singleton<MorseCode>.instance.morse[map[originalWordIndex]][originalMorseIdx] == '！')
+            else if (PlayManager.instance.morse[map[originalWordIndex]][originalMorseIdx] == '！')
             {
                 audioSource.clip = Long;
                 audioSource.pitch = 0.8f;
@@ -65,13 +64,13 @@ public class Metronome : MonoBehaviour
             {
                 originalMorseIdx = 0;
                 originalWordIndex++;
-                if (originalWordIndex < map.Length) originalMorseCode = Singleton<MorseCode>.instance.morse[map[originalWordIndex]];
+                if (originalWordIndex < map.Length) originalMorseCode = PlayManager.instance.morse[map[originalWordIndex]];
             }
         }
 
-        if (Singleton<PlayManager>.instance.offsetTime >= 60 / bpm)
+        if (PlayManager.instance.offsetTime >= 60 / bpm)
         {
-            Singleton<PlayManager>.instance.offsetTime -= 60 / bpm;
+            PlayManager.instance.offsetTime -= 60 / bpm;
             StartCoroutine(LaterChangeIdx());
         }
     }
@@ -79,24 +78,13 @@ public class Metronome : MonoBehaviour
     IEnumerator LaterChangeIdx()
     {
         yield return new WaitForSeconds(60 / bpm / 2);
-        if (Singleton<PlayManager>.instance.currentCode != ' ' && !Singleton<PlayManager>.instance.isInput) Singleton<PlayManager>.instance.isFail = true;
-        Singleton<PlayManager>.instance.offsetMorseIdx++;
-        Singleton<PlayManager>.instance.isInput = false;
-        if (Singleton<PlayManager>.instance.offsetMorseIdx >= Singleton<PlayManager>.instance.offsetMorseCode.Length)
-        {
-            Singleton<CreateWord>.instance.offsetWordIndex++;
-            Singleton<CreateWord>.instance.isMorseEnd = true;
-            Singleton<CreateWord>.instance.isChangeAlphabet = false;
-            Singleton<PlayManager>.instance.offsetMorseIdx = 0;
-        }
-        Singleton<PlayManager>.instance.currentCode = Singleton<PlayManager>.instance.offsetMorseCode[Singleton<PlayManager>.instance.offsetMorseIdx];
+        PlayManager.instance.ChangeIdx();
     }
 
     IEnumerator Finish()
     {
         yield return new WaitForSeconds(1.5f);
-        Singleton<PlayManager>.instance.isCountdown = false;
-        Singleton<MusicInfo>.instance.isLoadScene = true;
+        MusicInfo.instance.isLoadScene = true;
         GameManager.instance.isPlayMusic = false;
         SceneManager.LoadScene("SelectMusic");
     }

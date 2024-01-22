@@ -8,18 +8,13 @@ public class ShowMusicData : MonoBehaviour
 {
     private void Start()
     {
-        MusicInfo musicInfo = Singleton<MusicInfo>.instance;
-        transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = musicInfo.musicList.datas[musicInfo.currentMusicIndex].name;
+        MusicData data = MusicInfo.instance.musicList.datas[MusicInfo.instance.currentMusicIndex];
 
-        transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "#" + musicInfo.musicList.datas[musicInfo.currentMusicIndex].bpm + "BPM";
-
-        if (musicInfo.mode == Mode.OneWord) transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "#OneWord";
-        else if (musicInfo.mode == Mode.TwoWord) transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "#TwoWord";
-
-        if (musicInfo.difficulty == 0) transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "#Easy";
-        else transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "#Hard";
-
-        transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "#" + musicInfo.musicList.datas[musicInfo.currentMusicIndex].language;
+        transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = data.name;
+        transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "#" + data.bpm + "BPM";
+        transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = MusicInfo.instance.mode == Mode.OneWord ? "#OneWord" : "#TwoWord";
+        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = MusicInfo.instance.difficulty == 0 ? "#Easy" : "#Hard";
+        transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "#" + data.language;
         
         StartCoroutine(FadeOut());
     }
@@ -42,7 +37,7 @@ public class ShowMusicData : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        Singleton<PlayManager>.instance.isFadeOut = true;
+        PlayManager.instance.isFadeOut = true;
         gameObject.SetActive(false);
     }
 }

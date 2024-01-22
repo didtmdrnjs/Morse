@@ -13,6 +13,11 @@ public class GameManager : MonoBehaviour
     public string lastSceneName;
     public float offset;
 
+    public int perfectCount;
+    public int greateCount;
+    public int goodCount;
+    public int failCount;
+
     private void Start()
     {
         if (instance == null)
