@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShowMusic : MonoBehaviour
+public class Music : MonoBehaviour
 {
     [SerializeField] private GameObject leftMusic;
     [SerializeField] private GameObject centerMusic;
@@ -68,30 +68,29 @@ public class ShowMusic : MonoBehaviour
         else
         {
             isMove = false;
-            yield return new WaitForSeconds(0.001f);
-            rect.anchorMin = new Vector2(0, 0.085f);
-            rect.anchorMax = new Vector2(1, 0.875f);
+            rect.anchorMin = new Vector2(0, 0);
+            rect.anchorMax = new Vector2(1, 1);
         }
     }
 
     public void ShowMusicInfo()
     {
-        MusicList musicList = MusicInfo.instance.musicList;
+        List<MusicData> datas = MusicInfo.instance.datas;
         int idx = 0;
 
-        idx = index == 0 ? musicList.datas.Count - 1 : index - 1;
-        leftMusic.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = musicList.datas[idx].name;
-        leftMusic.transform.GetChild(1).GetComponent<Image>().sprite = musicList.datas[idx].image;
-        leftLanguage.text = musicList.datas[idx].language;
+        idx = index == 0 ? datas.Count - 1 : index - 1;
+        leftMusic.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = datas[idx].name;
+        leftMusic.transform.GetChild(1).GetComponent<Image>().sprite = datas[idx].image;
+        leftLanguage.text = datas[idx].language;
 
-        centerMusic.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = musicList.datas[index].name;
-        centerMusic.transform.GetChild(1).GetComponent<Image>().sprite = musicList.datas[index].image;
-        centerLanguage.text = musicList.datas[index].language;
+        centerMusic.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = datas[index].name;
+        centerMusic.transform.GetChild(1).GetComponent<Image>().sprite = datas[index].image;
+        centerLanguage.text = datas[index].language;
 
-        idx = index == musicList.datas.Count - 1 ? 0 : index + 1;
-        rightMusic.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = musicList.datas[idx].name;
-        rightMusic.transform.GetChild(1).GetComponent<Image>().sprite = musicList.datas[idx].image;
-        rightLanguage.text = musicList.datas[idx].language;
+        idx = index == datas.Count - 1 ? 0 : index + 1;
+        rightMusic.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = datas[idx].name;
+        rightMusic.transform.GetChild(1).GetComponent<Image>().sprite = datas[idx].image;
+        rightLanguage.text = datas[idx].language;
 
         isChangeMusic = false;
         MusicInfo.instance.isLoadScene = false;

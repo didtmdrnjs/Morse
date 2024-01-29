@@ -46,16 +46,12 @@ public class PlayManager : MonoBehaviour
     private void Start()
     {
         GameManager.instance.isPlayMusic = true;
-        MusicData data = MusicInfo.instance.musicList.datas[MusicInfo.instance.currentMusicIndex];
+        MusicData data = MusicInfo.instance.datas[MusicInfo.instance.currentMusicIndex];
 
         bpm = data.bpm;
         map = data.mapData;
 
         currentCode = ' ';
-        GameManager.instance.perfectCount = 0;
-        GameManager.instance.greateCount = 0;
-        GameManager.instance.goodCount = 0;
-        GameManager.instance.failCount = 0;
     }
 
     private void Update()
@@ -73,7 +69,11 @@ public class PlayManager : MonoBehaviour
 
     public void ChangeIdx()
     {
-        if (currentCode != ' ' && !isInput) isFail = true;
+        if (currentCode != ' ' && !isInput)
+        {
+            Score.instance.combo = 0;
+            isFail = true;
+        }
         offsetMorseIdx++;
         isInput = false;
         if (offsetMorseIdx >= offsetMorseCode.Length)
@@ -82,7 +82,7 @@ public class PlayManager : MonoBehaviour
             CreateWord.instance.isMorseEnd = true;
             offsetMorseIdx = 0;
         }
-        if (CreateWord.instance.offsetWordIndex == map.Length) return;
+        if (CreateWord.instance.offsetWordIndex >= map.Length) return;
         currentCode = morse[map[CreateWord.instance.offsetWordIndex]][offsetMorseIdx];
     }
 }

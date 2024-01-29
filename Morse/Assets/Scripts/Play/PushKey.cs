@@ -19,52 +19,56 @@ public class PushKey : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F) && PlayManager.instance.currentCode == '¡¤')
         {
+            if (PlayManager.instance.isInput) return;
             PlayManager.instance.isInput = true;
+            Score.instance.maxCombo = Mathf.Max(Score.instance.maxCombo, ++Score.instance.combo);
             float inputTime = PlayManager.instance.offsetTime;
             float verdict = inputTime >= (60 / bpm / 2) ? (60 / bpm) - inputTime : inputTime;
             if (verdict <= (60 / bpm / 7))
             {
                 GetComponent<TMP_Text>().text = "<color=green>perfect</color>";
-                GameManager.instance.perfectCount++;
+                Score.instance.perfectCount++;
             }
             else if (verdict <= (60 / bpm / 4))
             {
                 GetComponent<TMP_Text>().text = "<color=#64FF00>greate</color>";
-                GameManager.instance.greateCount++;
+                Score.instance.greateCount++;
             }
             else if (verdict <= (60 / bpm / 2.5))
             {
                 GetComponent<TMP_Text>().text = "<color=#FF6400>good</color>";
-                GameManager.instance.goodCount++;
+                Score.instance.goodCount++;
             }
         }
 
         if (Input.GetKeyDown(KeyCode.J) && PlayManager.instance.currentCode == '¡ª')
         {
+            if (PlayManager.instance.isInput) return;
             PlayManager.instance.isInput = true;
+            Score.instance.maxCombo = Mathf.Max(Score.instance.maxCombo, ++Score.instance.combo);
             float inputTime = PlayManager.instance.offsetTime;
             float verdict = inputTime >= (60 / bpm / 2) ? (60 / bpm) - inputTime : inputTime;
             if (verdict <= (60 / bpm / 7))
             {
                 GetComponent<TMP_Text>().text = "<color=green>perfect</color>";
-                GameManager.instance.perfectCount++;
+                Score.instance.perfectCount++;
             }
             else if (verdict <= (60 / bpm / 4))
             {
                 GetComponent<TMP_Text>().text = "<color=#64FF00>greate</color>";
-                GameManager.instance.greateCount++;
+                Score.instance.greateCount++;
             }
             else if (verdict <= (60 / bpm / 2.5))
             {
                 GetComponent<TMP_Text>().text = "<color=#FF6400>good</color>";
-                GameManager.instance.goodCount++;
+                Score.instance.goodCount++;
             }
         }
 
         if (PlayManager.instance.isFail)
         {
             GetComponent<TMP_Text>().text = "<color=red>fail</color>";
-            GameManager.instance.failCount++;
+            Score.instance.failCount++;
             PlayManager.instance.isFail = false;
         }
     }

@@ -17,9 +17,8 @@ public class KeyEvent : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            MusicInfo musicInfo = MusicInfo.instance;
-            if (musicInfo.mode == Mode.OneWord) musicInfo.mode = Mode.TwoWord;
-            else musicInfo.mode = Mode.OneWord;
+            if (GameManager.instance.mode == EMode.OneWord) GameManager.instance.mode = EMode.TwoWord;
+            else GameManager.instance.mode = EMode.OneWord;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))

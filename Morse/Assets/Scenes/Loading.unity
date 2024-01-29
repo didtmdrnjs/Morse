@@ -247,8 +247,6 @@ MonoBehaviour:
   currentMusicIndex: 0
   difficulty: 0
   mode: 0
-  isMove: 0
-  isChangeMusic: 0
   isLoadScene: 0
   currentLoadElement: 0
   totalLoadElement: 0

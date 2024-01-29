@@ -13,10 +13,8 @@ public class GameManager : MonoBehaviour
     public string lastSceneName;
     public float offset;
 
-    public int perfectCount;
-    public int greateCount;
-    public int goodCount;
-    public int failCount;
+    public int difficulty;
+    public EMode mode;
 
     private void Start()
     {
@@ -26,6 +24,9 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else if (instance != this) Destroy(gameObject);
+
+        difficulty = 0;
+        mode = EMode.OneWord;
     }
 
     private void Update()

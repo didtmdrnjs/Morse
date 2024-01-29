@@ -257,6 +257,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 131521137}
   m_CullTransparentMesh: 1
+--- !u!1 &156640860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 156640862}
+  - component: {fileID: 156640861}
+  m_Layer: 0
+  m_Name: Score
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &156640861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 156640860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 098469f7eba5be44081f0d9a75f05798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &156640862
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 156640860}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.15362382, y: -0.3968181, z: 0.026624234}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &217544714
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,9 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 0
-  mapData: 
-  originalTime: 0
-  offsetTime: 0
+  map: 
   isFadeOut: 0
   isCountdown: 0
   isStartOffset: 0
@@ -315,10 +357,7 @@ MonoBehaviour:
   offsetMorseCode: 
   offsetMorseIdx: 0
   currentCode: 101
-  perfectCount: 0
-  greateCount: 0
-  goodCount: 0
-  failCount: 0
+  offsetTime: 0
   isInput: 0
   isFail: 0
 --- !u!114 &217544717
@@ -700,7 +739,6 @@ MonoBehaviour:
   Code: {fileID: 1422217187}
   isMorseEnd: 0
   isMusicEnd: 0
-  isChangeAlphabet: 0
   offsetWordIndex: 0
 --- !u!1 &368720510
 GameObject:
@@ -3474,3 +3512,4 @@ SceneRoots:
   - {fileID: 217544715}
   - {fileID: 1770751603}
   - {fileID: 1759191563}
+  - {fileID: 156640862}

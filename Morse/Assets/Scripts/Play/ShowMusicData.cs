@@ -8,12 +8,12 @@ public class ShowMusicData : MonoBehaviour
 {
     private void Start()
     {
-        MusicData data = MusicInfo.instance.musicList.datas[MusicInfo.instance.currentMusicIndex];
+        MusicData data = MusicInfo.instance.datas[MusicInfo.instance.currentMusicIndex];
 
         transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = data.name;
         transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "#" + data.bpm + "BPM";
-        transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = MusicInfo.instance.mode == Mode.OneWord ? "#OneWord" : "#TwoWord";
-        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = MusicInfo.instance.difficulty == 0 ? "#Easy" : "#Hard";
+        transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = GameManager.instance.mode == EMode.OneWord ? "#OneWord" : "#TwoWord";
+        transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = GameManager.instance.difficulty == 0 ? "#Easy" : "#Hard";
         transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "#" + data.language;
         
         StartCoroutine(FadeOut());
