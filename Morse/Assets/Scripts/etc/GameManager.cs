@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public bool isPlayMusic;
     public string lastSceneName;
     public float offset;
+    public int volum;
 
     public int difficulty;
     public EMode mode;

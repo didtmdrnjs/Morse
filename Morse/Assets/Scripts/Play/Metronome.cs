@@ -7,6 +7,8 @@ using UnityEngine.TerrainTools;
 
 public class Metronome : MonoBehaviour
 {
+    [SerializeField] private GameObject spin;
+
     [SerializeField] private AudioClip Short;
     [SerializeField] private AudioClip Long;
 
@@ -35,11 +37,23 @@ public class Metronome : MonoBehaviour
     {
         if (PlayManager.instance.isCountdown) originalTime += Time.deltaTime;
 
-        if (CreateWord.instance.isMusicEnd) StartCoroutine(Finish());
-        else if (PlayManager.instance.isCountdown) CountMorse();
+        if (CreateWord.instance.isWordEnd && ShowEnigma.instance.isEnigmaEnd) StartCoroutine(Finish());
+        else if (PlayManager.instance.isCountdown) Play();
     }
 
-    private void CountMorse()
+    private void Play()
+    {
+        SoundPlay();
+
+        if (PlayManager.instance.offsetTime >= 60 / bpm)
+        {
+            PlayManager.instance.offsetTime -= 60 / bpm;
+            spin.transform.Rotate(0, 0, -22.5f);
+            StartCoroutine(LaterChangeIdx());
+        }
+    }
+
+    private void SoundPlay()
     {
         if (originalWordIndex < map.Length && originalTime >= 60 / bpm)
         {
@@ -67,12 +81,6 @@ public class Metronome : MonoBehaviour
                 if (originalWordIndex < map.Length) originalMorseCode = PlayManager.instance.morse[map[originalWordIndex]];
             }
         }
-
-        if (PlayManager.instance.offsetTime >= 60 / bpm)
-        {
-            PlayManager.instance.offsetTime -= 60 / bpm;
-            StartCoroutine(LaterChangeIdx());
-        }
     }
 
     IEnumerator LaterChangeIdx()
@@ -84,6 +92,7 @@ public class Metronome : MonoBehaviour
     IEnumerator Finish()
     {
         yield return new WaitForSeconds(1.5f);
+        StopCoroutine("RotateMetronome");
         MusicInfo.instance.isLoadScene = true;
         GameManager.instance.isPlayMusic = false;
         SceneManager.LoadScene("Result");

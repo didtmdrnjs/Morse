@@ -7,15 +7,16 @@ public class CreateWord : MonoBehaviour
 {
     public static CreateWord instance;
 
-    [SerializeField] private TextMeshProUGUI FirstWord;
-    [SerializeField] private TextMeshProUGUI SecondWord;
-    [SerializeField] private TextMeshProUGUI ThirdWord;
-    [SerializeField] private TextMeshProUGUI FourthWord;
-    [SerializeField] private TextMeshProUGUI FifthWord;
-    [SerializeField] private TextMeshProUGUI Code;
+    public TMP_Text FirstWord;
+    public TMP_Text SecondWord;
+    public TMP_Text ThirdWord;
+    public TMP_Text FourthWord;
+    public TMP_Text FifthWord;
+    public TMP_Text Code;
 
     public bool isMorseEnd;
-    public bool isMusicEnd;
+    public bool isWordEnd;
+    public bool isEasy;
 
     public int offsetWordIndex;
 
@@ -25,61 +26,78 @@ public class CreateWord : MonoBehaviour
     private void Awake()
     {
         if (instance == null) instance = this;
-        else Destroy(instance);
+        else Destroy(gameObject);
     }
 
     private void Start()
     {
         map = PlayManager.instance.map;
         isMorseEnd = true;
-    }
-
-    private void Update()
-    {
-        if (PlayManager.instance.isCountdown && isMorseEnd)
+        isEasy = GameManager.instance.difficulty == 0;
+        if ((int)GameManager.instance.mode == 1)
         {
-            isMorseEnd = false;
-            if (offsetWordIndex < map.Length)
-            {
-                PlayManager.instance.offsetMorseCode = PlayManager.instance.morse[map[offsetWordIndex]];
-            }   
-            ShowAlphabet();
+            GetComponent<RectTransform>().anchorMin = new Vector2(0.1f, 0);
+            GetComponent<RectTransform>().anchorMax = new Vector2(0.5f, 1);
         }
+        
+        PlayManager.instance.onOneEnd += () =>
+        {
+            if (offsetWordIndex < map.Length) PlayManager.instance.offsetMorseCode = PlayManager.instance.morse[map[offsetWordIndex]];
+            ShowAlphabet();
+        };
+
+        PlayManager.instance.onOneFail += () =>
+        {
+            if (GameManager.instance.difficulty == 0)
+            {
+                string[] codes = Code.text.Split(' ');
+                codes[PlayManager.instance.offsetMorseIdx] = "<color=#FF0000>" + PlayManager.instance.currentCode + "</color>";
+                string morseCode = codes[0];
+                for (int i = 1; i < codes.Length; i++)
+                {
+                    morseCode += " " + codes[i];
+                }
+                Code.text = morseCode;
+            }
+        };
     }
 
     private void ShowAlphabet()
     {
-        if (offsetWordIndex < map.Length)
+        if (isEasy && offsetWordIndex < map.Length)
         {
             morseCode = "";
             foreach (char c in PlayManager.instance.morse[map[offsetWordIndex]])
             {
+                morseCode += "<color=#FFFFFF>";
                 morseCode += c;
-                morseCode += " ";
+                morseCode += "</color> ";
             }
             Code.text = morseCode;
         }
 
-        if (offsetWordIndex < map.Length)
-        {
-            FirstWord.text = map[offsetWordIndex].ToString();
-        }
+        SetEnigmaWord(offsetWordIndex);
+    }
+
+    private void SetEnigmaWord(int idx)
+    {
+        if (idx < map.Length) FirstWord.text = map[idx].ToString();
         else
         {
             FirstWord.text = " ";
-            isMusicEnd = true;
+            isWordEnd = true;
         }
 
-        if (offsetWordIndex + 1 < map.Length) SecondWord.text = map[offsetWordIndex + 1].ToString();
+        if (idx + 1 < map.Length) SecondWord.text = map[idx + 1].ToString();
         else SecondWord.text = " ";
 
-        if (offsetWordIndex + 2 < map.Length) ThirdWord.text = map[offsetWordIndex + 2].ToString();
+        if (idx + 2 < map.Length) ThirdWord.text = map[idx + 2].ToString();
         else ThirdWord.text = " ";
 
-        if (offsetWordIndex + 3 < map.Length) FourthWord.text = map[offsetWordIndex + 3].ToString();
+        if (idx + 3 < map.Length) FourthWord.text = map[idx + 3].ToString();
         else FourthWord.text = " ";
 
-        if (offsetWordIndex + 4 < map.Length) FifthWord.text = map[offsetWordIndex + 4].ToString();
+        if (idx + 4 < map.Length) FifthWord.text = map[idx + 4].ToString();
         else FifthWord.text = " ";
     }
 }

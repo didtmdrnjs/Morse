@@ -6,13 +6,15 @@ using UnityEngine.UI;
 
 public class Music : MonoBehaviour
 {
-    [SerializeField] private GameObject leftMusic;
-    [SerializeField] private GameObject centerMusic;
-    [SerializeField] private GameObject rightMusic;
+    public GameObject leftMusic;
+    public GameObject centerMusic;
+    public GameObject rightMusic;
 
-    [SerializeField] private TextMeshProUGUI leftLanguage;
-    [SerializeField] private TextMeshProUGUI centerLanguage;
-    [SerializeField] private TextMeshProUGUI rightLanguage;
+    public TextMeshProUGUI leftLanguage;
+    public TextMeshProUGUI centerLanguage;
+    public TextMeshProUGUI rightLanguage;
+
+    public GameObject menu;
 
     private bool isMove;
     private bool isChangeMusic;
@@ -41,17 +43,20 @@ public class Music : MonoBehaviour
 
     private void Change()
     {
-        if (!isMove && Input.GetKeyDown(KeyCode.LeftArrow))
+        if (!menu.activeSelf)
         {
-            StartCoroutine(Move(1));
-            MusicInfo.instance.currentMusicIndex--;
-            isChangeMusic = true;
-        }
-        else if (!isMove && Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            StartCoroutine(Move(-1));
-            MusicInfo.instance.currentMusicIndex++;
-            isChangeMusic = true;
+            if (!isMove && Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                StartCoroutine(Move(1));
+                MusicInfo.instance.currentMusicIndex--;
+                isChangeMusic = true;
+            }
+            else if (!isMove && Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                StartCoroutine(Move(-1));
+                MusicInfo.instance.currentMusicIndex++;
+                isChangeMusic = true;
+            }
         }
     }
 
@@ -68,6 +73,7 @@ public class Music : MonoBehaviour
         else
         {
             isMove = false;
+            yield return new WaitForSeconds(0.0001f);
             rect.anchorMin = new Vector2(0, 0);
             rect.anchorMax = new Vector2(1, 1);
         }

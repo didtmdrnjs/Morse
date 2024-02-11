@@ -26,6 +26,11 @@ public class ProgressMessage : MonoBehaviour
         };
         messageField = GetComponent<TextMeshProUGUI>();
         StartCoroutine(GuideMessage());
+
+        CMetronome.instance.onCorrectionEnd += () =>
+        {
+            messageField.text = "오프셋이 " + (int)(GameManager.instance.offset * 1000) + "ms로 조정됩니다.";
+        };
     }
 
     private void Update()

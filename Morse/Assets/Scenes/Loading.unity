@@ -245,8 +245,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentMusicIndex: 0
-  difficulty: 0
-  mode: 0
   isLoadScene: 0
   currentLoadElement: 0
   totalLoadElement: 0
@@ -325,8 +323,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0%
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e285904020c326f43a8e81faa73e7caf, type: 2}
+  m_sharedMaterial: {fileID: -1758957846244589056, guid: e285904020c326f43a8e81faa73e7caf, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -432,6 +430,8 @@ MonoBehaviour:
   isPlayMusic: 0
   lastSceneName: 
   offset: 0
+  difficulty: 0
+  mode: 0
 --- !u!4 &719225815
 Transform:
   m_ObjectHideFlags: 0
@@ -798,8 +798,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Tip! '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e285904020c326f43a8e81faa73e7caf, type: 2}
+  m_sharedMaterial: {fileID: -1758957846244589056, guid: e285904020c326f43a8e81faa73e7caf, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -823,7 +823,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 71.5
   m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1044,8 +1044,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Tip Messages
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e285904020c326f43a8e81faa73e7caf, type: 2}
+  m_sharedMaterial: {fileID: -1758957846244589056, guid: e285904020c326f43a8e81faa73e7caf, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.4
+  m_fontSize: 31.45
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1

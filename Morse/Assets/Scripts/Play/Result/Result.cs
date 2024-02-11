@@ -81,13 +81,12 @@ public class Result : MonoBehaviour
     {
         string path = Application.dataPath + "/Music/" + data.name + "/" + (GameManager.instance.mode == EMode.OneWord ? "One" : "Two") + (GameManager.instance.difficulty == 0 ? "Easy" : "Hard") + ".json";
         if (!File.Exists(path)) StartCoroutine(Save(path));
-        else ReadScore(path);
+        else StartCoroutine(ReadScore(path));
     }
 
     IEnumerator Save(string path)
     {
         yield return null;
-        
         RecordData data = new RecordData();
         data.score = score;
         data.perfect = perfectCount;
@@ -97,6 +96,8 @@ public class Result : MonoBehaviour
         data.maxCombo = maxCombo;
         data.isFullCombo = failCount == 0;
         data.isPerfect = failCount == 0 && goodCount == 0 && greateCount == 0;
+
+        MusicInfo.instance.records[MusicInfo.instance.currentMusicIndex][(int)GameManager.instance.mode, GameManager.instance.difficulty] = data;
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(path, json);
     }
@@ -106,7 +107,7 @@ public class Result : MonoBehaviour
         yield return null;
         string json = File.ReadAllText(path);
         RecordData data = JsonUtility.FromJson<RecordData>(json);
-        if (data.score < score) Save(path);
+        if (data.score < score) StartCoroutine(Save(path));
     }
 }
 

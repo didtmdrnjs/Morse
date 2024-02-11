@@ -61,12 +61,13 @@ public class User : MonoBehaviour
         settingData.TwoSecondShortKey = userSetting.TwoSecondShortKey;
         settingData.TwoSecondLongKey = userSetting.TwoSecondLongKey;
         settingData.offset = GameManager.instance.offset;
+        settingData.volum = GameManager.instance.volum;
 
         string setting = JsonUtility.ToJson(settingData);
         File.WriteAllText(path + "/userSetting.Json", setting);
     }
 
-    IEnumerator ReadUser()
+    public IEnumerator ReadUser()
     {
         yield return null;
 
@@ -83,6 +84,7 @@ public class User : MonoBehaviour
         userSetting = settingData;
 
         GameManager.instance.offset = userSetting.offset;
+        GameManager.instance.volum = userSetting.volum;
     }
 
 }
@@ -106,4 +108,5 @@ public class UserSetting
     public KeyCode TwoSecondLongKey;
 
     public float offset;
+    public int volum;
 }

@@ -5,26 +5,27 @@ using UnityEngine.SceneManagement;
 
 public class KeyEvent : MonoBehaviour
 {
-    [SerializeField] private GameObject Options;
+    public GameObject menu;
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (!menu.activeSelf)
         {
-            GameManager.instance.isPlayMusic = true;
-            SceneManager.LoadScene("Play");
-        }
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                GameManager.instance.isPlayMusic = true;
+                SceneManager.LoadScene("Play");
+            }
 
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (GameManager.instance.mode == EMode.OneWord) GameManager.instance.mode = EMode.TwoWord;
-            else GameManager.instance.mode = EMode.OneWord;
         }
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Options.activeSelf) Options.SetActive(false);
-            else Options.SetActive(true);
+            if (menu.activeSelf)
+            {
+                User.instance.WriteUserData();
+                menu.SetActive(false);
+            }
+            else menu.SetActive(true);
         }
     }
 }

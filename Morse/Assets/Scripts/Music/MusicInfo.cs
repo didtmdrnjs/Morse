@@ -9,8 +9,7 @@ public class MusicInfo : MonoBehaviour
 {
     public static MusicInfo instance;
 
-    private const string musicList_url = "https://script.google.com/macros/s/AKfycbx43AuyPl3PKX9n-0GPbsLf69azaLjGxqZXg8WH-HQv2hkr3tlT_AP5zURieT12yP7B/exec";
-    private const string musicData_url = "https://script.google.com/macros/s/AKfycbyy78Cui9ci2ZB5hUYmd2nG8ukhm033MFNO9OXtjlMA_C6eq9M1wF1Vlg44y1vLYvNV/exec";
+    private const string musicData_url = "https://script.google.com/macros/s/AKfycbzLyyMJidozrmtVTcKZQkCkU86cy3VXbuNasOZVfcAvh9vg7LOQflV-dqc8JeeKJ3Sr/exec";
 
     private string musicDirectory;
 
@@ -47,7 +46,6 @@ public class MusicInfo : MonoBehaviour
         else StartCoroutine(ReadJson());
 
         currentMusicIndex = 0;
-
         currentLoadElement = 0;
     }
 
@@ -64,39 +62,45 @@ public class MusicInfo : MonoBehaviour
 
     IEnumerator DownLoadMusicData()
     {
-        UnityWebRequest musicList_www = UnityWebRequest.Get(musicList_url);
-        yield return musicList_www.SendWebRequest();
-
         UnityWebRequest musicData_www = UnityWebRequest.Get(musicData_url);
         yield return musicData_www.SendWebRequest();
 
-        SetMusicData(musicList_www.downloadHandler.text, musicData_www.downloadHandler.text);
+        SetMusicData(musicData_www.downloadHandler.text);
     }
 
     IEnumerator GetTexture(int idx, string url)
     {
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
         yield return www.SendWebRequest();
-        
-        Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-        Debug.Log(DownloadHandlerTexture.GetContent(www));
-
-        datas[idx].pngBytes = texture.EncodeToPNG();
-
-        Rect rect = new Rect(0, 0, texture.width, texture.height);
-        Sprite sprite = Sprite.Create(texture, rect, new Vector2(0.5f, 0.5f));
-
-        datas[idx].image = sprite;
-
-        if (idx == datas.Count - 1)
+        if (www.result != UnityWebRequest.Result.Success) StartCoroutine(GetTexture(idx, url));
+        else
         {
-            currentLoadElement++;
-            isLoadTotal = true;
+            Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            Debug.Log(DownloadHandlerTexture.GetContent(www));
 
-            yield return new WaitForSeconds(1);
+            datas[idx].pngBytes = texture.EncodeToPNG();
 
-            StartCoroutine(SaveData());
+            Rect rect = new Rect(0, 0, texture.width, texture.height);
+            Sprite sprite = Sprite.Create(texture, rect, new Vector2(0.5f, 0.5f));
+
+            datas[idx].image = sprite;
+
+            if (idx == datas.Count - 1)
+            {
+                currentLoadElement++;
+                isLoadTotal = true;
+
+                yield return new WaitForSeconds(1);
+                StartCoroutine(CheckImage());
+            }
         }
+    }
+
+    IEnumerator CheckImage()
+    {
+        Debug.Log(datas[datas.Count - 1].image);
+        if (datas[datas.Count - 1].image != null) StartCoroutine(SaveData());
+        else yield return StartCoroutine(CheckImage());
     }
 
     IEnumerator SaveData()
@@ -161,23 +165,24 @@ public class MusicInfo : MonoBehaviour
         }
     }
 
-    private void SetMusicData(string List, string Data)
+    private void SetMusicData(string Data)
     {
-        string[] list = List.Split(',');
         string[] data = Data.Split(",");
-
-        for (int i = 0; i < list.Length; i++)
+        for (int i = 0; i < data.Length; i++)
         {
-            string[] LInfo = list[i].Split(" ");
-            string[] DInfo = data[i].Split(" ");
+            string[] info = data[i].Split(" ");
 
             MusicData musicData = new MusicData();
-            musicData.id = int.Parse(LInfo[0]);
-            musicData.name = LInfo[1];
-            StartCoroutine(GetTexture(i, LInfo[2]));
-            musicData.language = DInfo[1];
-            musicData.bpm = int.Parse(DInfo[2]);
-            musicData.mapData = DInfo[3];
+            musicData.id = int.Parse(info[0]);
+            musicData.name = info[1];
+            StartCoroutine(GetTexture(i, info[2]));
+            musicData.language = info[3];
+            musicData.bpm = int.Parse(info[4]);
+
+            string map = info[5];
+            for (int j = 6; j < info.Length; j++) map += " " + info[j];
+            musicData.mapData = "   " + map + " ";
+
             datas.Add(musicData);
             records.Add(new RecordData[2, 2]);
         }

@@ -17,6 +17,7 @@ public class WriteUser : MonoBehaviour
         {
             Title.instance.isEndWriteUser = true;
             WriteUserData();
+            StartCoroutine(User.instance.ReadUser());
             transform.parent.gameObject.SetActive(false);
         }
     }
@@ -42,6 +43,7 @@ public class WriteUser : MonoBehaviour
         settingData.TwoSecondShortKey = KeyCode.J;
         settingData.TwoSecondLongKey = KeyCode.K;
         settingData.offset = 0;
+        settingData.volum = 10;
 
         string setting = JsonUtility.ToJson(settingData);
         File.WriteAllText(path + "/userSetting.Json", setting);

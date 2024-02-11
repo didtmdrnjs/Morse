@@ -32,12 +32,12 @@ public class Score : MonoBehaviour
 
     public int GetScore()
     {
-        int val = 1000000 / fullCount;
-        int score = 0;
+        float val = 1000000f / fullCount;
+        float score = 0;
         score += perfectCount * val;
-        score += (int)(greateCount * val * 0.65f);
-        score += (int)(goodCount * val * 0.3f);
-        return score;
+        score += greateCount * val * 0.65f;
+        score += goodCount * val * 0.3f;
+        return (int)score;
     }
 
     public float GetRate()

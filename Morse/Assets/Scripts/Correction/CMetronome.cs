@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class CMetronome : MonoBehaviour
     public bool isAgain;
 
     private bool isFirstClick;
+    private bool isEnd;
     
     private int noteMax;
     private int noteCount;
@@ -24,6 +26,8 @@ public class CMetronome : MonoBehaviour
     private float[] startTimes;
 
     public float sumTime;
+
+    public Action onCorrectionEnd;
 
     private void Awake()
     {
@@ -39,7 +43,7 @@ public class CMetronome : MonoBehaviour
 
     private void Update()
     {
-        if (isEndGuide && !isAgain)
+        if (isEndGuide && !isAgain && !isEnd)
         {
             time += Time.deltaTime;
 
@@ -108,7 +112,10 @@ public class CMetronome : MonoBehaviour
     {
         GameManager.instance.offset = sumTime / 20;
         User.instance.WriteUserData();
+        isEnd = true;
         yield return new WaitForSeconds(2);
+        onCorrectionEnd?.Invoke();
+        yield return new WaitForSeconds(4);
         SceneManager.LoadScene(GameManager.instance.lastSceneName);
         GameManager.instance.isPlayMusic = false;
         if (GameManager.instance.lastSceneName == "SelectMusic") MusicInfo.instance.isLoadScene = true;
