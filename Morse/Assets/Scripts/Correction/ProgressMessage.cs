@@ -29,7 +29,7 @@ public class ProgressMessage : MonoBehaviour
 
         CMetronome.instance.onCorrectionEnd += () =>
         {
-            messageField.text = "오프셋이 " + (int)(GameManager.instance.offset * 1000) + "ms로 조정됩니다.";
+            messageField.text = "오프셋이 " + (int)(User.instance.userSetting.offset * 1000) + "ms로 조정됩니다.";
         };
     }
 

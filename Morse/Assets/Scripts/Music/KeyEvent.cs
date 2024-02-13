@@ -18,14 +18,18 @@ public class KeyEvent : MonoBehaviour
             }
 
         }
+        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (menu.activeSelf)
-            {
-                User.instance.WriteUserData();
-                menu.SetActive(false);
-            }
+            if (menu.activeSelf) menu.SetActive(false);
             else menu.SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            MusicInfo.instance.currentMusicIndex = Random.Range(0, MusicInfo.instance.datas.Count);
+            GameManager.instance.isPlayMusic = true;
+            SceneManager.LoadScene("Play");
         }
     }
 }

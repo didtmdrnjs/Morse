@@ -15,10 +15,15 @@ public class WindowManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && ActiveWindow != null)
+        if (ActiveWindow != null)
         {
-            ActiveWindow.SetActive(false);
-            ActiveWindow = null;
+            ActiveWindow.SetActive(true);
+            
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                ActiveWindow.SetActive(false);
+                ActiveWindow = null;
+            }
         }
     }
 }

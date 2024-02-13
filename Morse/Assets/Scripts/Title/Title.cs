@@ -35,7 +35,6 @@ public class Title : MonoBehaviour
     public void OpenSettingWindow()
     {
         GameObject window = Settings;
-        window.SetActive(true);
         WindowManager.instance.ActiveWindow = window;
     }
 

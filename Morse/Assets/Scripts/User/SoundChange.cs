@@ -10,11 +10,11 @@ public class SoundChange : MonoBehaviour
 
     private void Update()
     {
-        idx = GameManager.instance.volum;
+        idx = User.instance.userSetting.volum;
         if (MenuManager.instance.isVolum)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow) && idx < 10) GameManager.instance.volum++;
-            if (Input.GetKeyDown(KeyCode.LeftArrow) && idx > 0) GameManager.instance.volum--;
+            if (Input.GetKeyDown(KeyCode.RightArrow) && idx < 10) User.instance.userSetting.volum++;
+            if (Input.GetKeyDown(KeyCode.LeftArrow) && idx > 0) User.instance.userSetting.volum--;
             ChangeState(new Color(1, 190 / 255f, 0, 1));
         }
         else ChangeState(Color.white);

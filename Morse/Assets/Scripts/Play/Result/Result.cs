@@ -14,7 +14,7 @@ public class Result : MonoBehaviour
     public TMP_Text musicName;
     public Image img;
     public Image rank;
-    public List<Image> rankImgs;
+    public List<Sprite> rankImgs;
 
     private MusicData data;
     private int score;
@@ -42,7 +42,7 @@ public class Result : MonoBehaviour
             "<color=#64FF00>Greate</color> : " + greateCount + "\n" +
             "<color=#FF6400>Good</color> : " + goodCount + "\n" +
             "<color=red>Fail</color> : " + failCount;
-        //SetRank();
+        SetRank();
         Destroy(Score.instance.gameObject);
         SaveRecord();
     }
@@ -67,14 +67,20 @@ public class Result : MonoBehaviour
 
     private void SetRank()
     {
-        if (rate == 100) rank = rankImgs[0]; // SSS
-        else if (rate >= 98) rank = rankImgs[1]; // SS
-        else if (rate >= 94) rank = rankImgs[2]; // S
-        else if (rate >= 86) rank = rankImgs[3]; // A
-        else if (rate >= 70) rank = rankImgs[4]; // B
-        else if (rate >= 54) rank = rankImgs[5]; // C
-        else if (rate >= 38) rank = rankImgs[6]; // D
-        else rank = rankImgs[7]; // F
+        if (rate == 100) RankEvent(0);
+        else if (rate >= 99) RankEvent(1);
+        else if (rate >= 97) RankEvent(2);
+        else if (rate >= 93) RankEvent(3);
+        else if (rate >= 85) RankEvent(4);
+        else if (rate >= 69) RankEvent(5);
+        else if (rate >= 37) RankEvent(6);
+        else RankEvent(7); 
+    }
+
+    private void RankEvent(int x)
+    {
+        rank.sprite = rankImgs[x];
+        User.instance.SetLevel(x);
     }
 
     private void SaveRecord()

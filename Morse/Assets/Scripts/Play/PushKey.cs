@@ -136,6 +136,7 @@ public class PushKey : MonoBehaviour
 
         SetEnigmaCode(codes, color, code);
     }
+
     private void SetEnigmaCode(string[] codes, string color, char code)
     {
         if (!ShowEnigma.instance.isEasy) return;

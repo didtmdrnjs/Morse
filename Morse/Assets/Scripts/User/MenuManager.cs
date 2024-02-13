@@ -10,11 +10,11 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager instance;
 
-    public Image TitleButton;
+    public Image Button;
 
     public bool isVolum;
     public bool isKey;
-    public bool isTitle;
+    public bool isButton;
 
     private void Awake()
     {
@@ -27,13 +27,19 @@ public class MenuManager : MonoBehaviour
         gameObject.SetActive(false);
         isVolum = true;
         isKey = false;
-        isTitle = false;
+        isButton = false;
     }
 
     private void Update()
     {
         ChangeSelected();
         TItleAction();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            User.instance.WriteUserData();
+            gameObject.SetActive(false);
+        }
     }
 
     public void ChangeSelected()
@@ -44,13 +50,13 @@ public class MenuManager : MonoBehaviour
             {
                 isVolum = true;
                 isKey = false;
-                isTitle = false;
+                isButton = false;
             }
-            else if (isTitle)
+            else if (isButton)
             {
                 isVolum = false;
                 isKey = true;
-                isTitle = false;
+                isButton = false;
             }
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -59,24 +65,32 @@ public class MenuManager : MonoBehaviour
             {
                 isVolum = false;
                 isKey = true;
-                isTitle = false;
+                isButton = false;
             }
             else if (isKey)
             {
                 isVolum = false;
                 isKey = false;
-                isTitle = true;
+                isButton = true;
             }
         }
     }
 
     public void TItleAction()
     {
-        if (isTitle)
+        if (isButton)
         {
-            TitleButton.color = new Color(1, 190 / 255f, 0, 1);
-            if (Input.GetKeyDown(KeyCode.Return)) SceneManager.LoadScene("Title");
+            Button.color = new Color(1, 190 / 255f, 0, 1);
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                if (SceneManager.GetActiveScene().name == "SelectMusic") SceneManager.LoadScene("Title");
+                else
+                {
+                    GameManager.instance.lastSceneName = "Title";
+                    SceneManager.LoadScene("Correction");
+                }
+            }
         }
-        else TitleButton.color = Color.white;
+        else Button.color = Color.white;
     }
 }

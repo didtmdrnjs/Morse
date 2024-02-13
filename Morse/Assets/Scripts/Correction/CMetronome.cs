@@ -39,6 +39,7 @@ public class CMetronome : MonoBehaviour
     {
         source = GetComponent<AudioSource>();
         Reset();
+        GetComponent<AudioSource>().volume = User.instance.userSetting.volum;
     }
 
     private void Update()
@@ -110,7 +111,7 @@ public class CMetronome : MonoBehaviour
 
     private IEnumerator CorrectionEnd()
     {
-        GameManager.instance.offset = sumTime / 20;
+        User.instance.userSetting.offset = sumTime / 20;
         User.instance.WriteUserData();
         isEnd = true;
         yield return new WaitForSeconds(2);

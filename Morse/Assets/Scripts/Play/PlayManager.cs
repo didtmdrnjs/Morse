@@ -71,7 +71,7 @@ public class PlayManager : MonoBehaviour
         currentCode = ' ';
         curEnigmaCode = ' ';
 
-        GetComponent<AudioSource>().volume = GameManager.instance.volum / 10f;
+        GetComponent<AudioSource>().volume = User.instance.userSetting.volum / 10f;
     }
 
     private void Update()
@@ -83,14 +83,14 @@ public class PlayManager : MonoBehaviour
     IEnumerator WaitOffset()
     {
         isStartOffset = true;
-        yield return new WaitForSeconds(GameManager.instance.offset);
+        yield return new WaitForSeconds(User.instance.userSetting.offset);
         isWaitOffset = true;
     }
 
     public void ChangeIdx()
     {
         OneModeChange();
-        TwoModeChange();
+        if (GameManager.instance.mode == EMode.TwoWord) TwoModeChange();
     }
 
     private void OneModeChange()

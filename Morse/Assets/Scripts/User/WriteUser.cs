@@ -24,7 +24,7 @@ public class WriteUser : MonoBehaviour
 
     private void WriteUserData()
     {
-        string path = User.instance.path;
+        string path = User.instance.userPath;
 
         UserInfo infoData = new UserInfo();
         UserSetting settingData = new UserSetting();

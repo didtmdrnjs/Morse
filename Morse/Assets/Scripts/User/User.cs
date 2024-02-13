@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -11,8 +12,10 @@ public class User : MonoBehaviour
 
     public UserInfo userInfo;
     public UserSetting userSetting;
+    public LevelData levels;
 
-    public string path = Application.dataPath + "/User";
+    public string userPath = Application.dataPath + "/User";
+    public string lavelDataPath = Application.dataPath + "/Json/LevelData.json";
 
     private void Start()
     {
@@ -25,15 +28,17 @@ public class User : MonoBehaviour
         
         userInfo = new UserInfo();
         userSetting = new UserSetting();
+        levels = new LevelData();
 
         SetUser();
     }
 
     private void SetUser()
     {
-        if (!Directory.Exists(path))
+        StartCoroutine(ReadLevelData());
+        if (!Directory.Exists(userPath))
         {
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(userPath);
             Title.instance.InputName.SetActive(true);
         }
         else
@@ -42,28 +47,15 @@ public class User : MonoBehaviour
             StartCoroutine(ReadUser());
         }
     }
+
     public void WriteUserData()
     {
-        string path = instance.path;
+        string path = instance.userPath;
 
-        UserInfo infoData = new UserInfo();
-        UserSetting settingData = new UserSetting();
-
-        infoData = userInfo;
-
-        string info = JsonUtility.ToJson(infoData);
+        string info = JsonUtility.ToJson(userInfo);
         File.WriteAllText(path + "/userInfo.Json", info);
 
-        settingData.OneShortKey = userSetting.OneShortKey;
-        settingData.OneLongKey = userSetting.OneLongKey;
-        settingData.TwoFirstShortKey = userSetting.TwoFirstShortKey;
-        settingData.TwoFirstLongKey = userSetting.TwoFirstLongKey;
-        settingData.TwoSecondShortKey = userSetting.TwoSecondShortKey;
-        settingData.TwoSecondLongKey = userSetting.TwoSecondLongKey;
-        settingData.offset = GameManager.instance.offset;
-        settingData.volum = GameManager.instance.volum;
-
-        string setting = JsonUtility.ToJson(settingData);
+        string setting = JsonUtility.ToJson(userSetting);
         File.WriteAllText(path + "/userSetting.Json", setting);
     }
 
@@ -71,22 +63,35 @@ public class User : MonoBehaviour
     {
         yield return null;
 
-        string infoFile = path + "/userInfo.Json"; 
-        string settingFile = path + "/userSetting.Json"; 
+        string infoFile = userPath + "/userInfo.Json"; 
+        string settingFile = userPath + "/userSetting.Json"; 
 
         string info = File.ReadAllText(infoFile);
         string setting = File.ReadAllText(settingFile);
 
-        UserInfo infoData = JsonUtility.FromJson<UserInfo>(info);
-        UserSetting settingData = JsonUtility.FromJson<UserSetting>(setting);
-
-        userInfo = infoData;
-        userSetting = settingData;
-
-        GameManager.instance.offset = userSetting.offset;
-        GameManager.instance.volum = userSetting.volum;
+        userInfo = JsonUtility.FromJson<UserInfo>(info);
+        userSetting = JsonUtility.FromJson<UserSetting>(setting);
     }
 
+    public IEnumerator ReadLevelData()
+    {
+        yield return null;
+
+        string data = File.ReadAllText(lavelDataPath);
+        levels = JsonUtility.FromJson<LevelData>(data);
+    }
+
+    public void SetLevel(int x)
+    {
+        userInfo.exp += (8 - x) * 2 * (userInfo.level / 2f) * (GameManager.instance.difficulty == 0 ? 1 : 2) * (GameManager.instance.mode == EMode.OneWord ? 1 : 5);
+        while (userInfo.exp >= levels.datas[userInfo.level].maxExp && userInfo.level < 50)
+        {
+            userInfo.level++;
+            userInfo.exp -= levels.datas[userInfo.level].maxExp;
+        }
+
+        WriteUserData();
+    }
 }
 
 public class UserInfo
@@ -109,4 +114,16 @@ public class UserSetting
 
     public float offset;
     public int volum;
+}
+
+public class LevelData
+{
+    public List<LevelInfo> datas;
+}
+
+[System.Serializable]
+public class LevelInfo
+{
+    public int level;
+    public int maxExp;
 }
