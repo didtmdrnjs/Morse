@@ -62,7 +62,7 @@ public class User : MonoBehaviour
     public IEnumerator ReadUser()
     {
         yield return null;
-
+        
         string infoFile = userPath + "/userInfo.Json"; 
         string settingFile = userPath + "/userSetting.Json"; 
 

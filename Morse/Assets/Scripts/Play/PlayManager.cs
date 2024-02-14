@@ -47,8 +47,16 @@ public class PlayManager : MonoBehaviour
         else Destroy(gameObject);
         morse = new Dictionary<char, char[]>()
         {
-            {'A', new char[] {s, l} }, {'B', new char[] {l, s, s, s} }, {'C', new char[] {l, s, l, s} },　{'D', new char[] {l, s, s} }, {'E', new char[] {s} }, 
-            {'F', new char[] {s, s, l, s } },　{'G', new char[] { l, l, s } }, {'H', new char[] { s, s, s, s } }, {'I', new char[] { s, s } },　{'J', new char[] { s, l, l, l } },
+            {'0', new char[] { l, l, l, l, l } }, {'1', new char[] { s, l, l, l, l } }, {'2', new char[] { s, s, l, l, l } }, {'3', new char[] { s, s, s, l, l } }, {'4', new char[] { s, s, s, s, l } },
+            {'5', new char[] { s, s, s, s, s } }, {'6', new char[] { l, s, s, s, s } }, {'7', new char[] { l, l, s, s, s } }, {'8', new char[] { l, l, l, s, s } }, {'9', new char[] { l, l, l, l, s } },
+
+            {'.', new char[] { s, l, s, l, s, l } }, {',', new char[] { l, l, s, s, l, l } }, {'?', new char[] { s, s, l, l, s, s } }, {'/', new char[] { l, s, s, l, s } }, {'-', new char[] { l, s, s, s, s, l } },
+            {'=', new char[] { l, s, s, s, l } }, {':', new char[] { l, l, l, s, s, s } }, {';', new char[] { l, s, l, s, l, s } }, {'(', new char[] { l, s, l, l, s } }, {')', new char[] { l, s, l, l, s, l } },
+            {'\'', new char[] { s, l, l, l, l, s } }, {'\"', new char[] { s, l, s, s, l, s } }, {'!', new char[] { s, l, s, s, s} }, {'@', new char[] { s, l, l, s, l, s } }, {'+', new char[] { s, l, s, l, s } },
+            {'×', new char[] { s, s, l, s, l } }, {'_', new char[] { s, s, l, l, s, l } }, {'~', new char[] { s, l, s, l } }, 
+
+            {'A', new char[] { s, l } }, {'B', new char[] { l, s, s, s } }, {'C', new char[] { l, s, l, s } },　{'D', new char[] { l, s, s } }, {'E', new char[] { s } }, 
+            {'F', new char[] { s, s, l, s } },　{'G', new char[] { l, l, s } }, {'H', new char[] { s, s, s, s } }, {'I', new char[] { s, s } },　{'J', new char[] { s, l, l, l } },
             {'K', new char[] { l, s, l } }, {'L', new char[] { s, l, s, s } },　{'M', new char[] { l, l } }, {'N', new char[] { l, s } }, {'O', new char[] { l, l, l } },
             {'P', new char[] { s, l, l, s } }, {'Q', new char[] { l, l, s, l } }, {'R', new char[] { s, l, s } },　{'S', new char[] { s, s, s } }, {'T', new char[] { l } }, 
             {'U', new char[] { s, s, l } },　{'V', new char[] { s, s, s, l } }, {'W', new char[] { s, l, l } }, {'X', new char[] { l, s, s, l } },　{'Y', new char[] { l, s, l, l } }, 

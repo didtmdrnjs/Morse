@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class WriteUser : MonoBehaviour
 {
+    public GameObject helper;
+
     private void OnEnable()
     {
         GetComponent<TMP_InputField>().ActivateInputField();
@@ -17,7 +19,7 @@ public class WriteUser : MonoBehaviour
         {
             Title.instance.isEndWriteUser = true;
             WriteUserData();
-            StartCoroutine(User.instance.ReadUser());
+            WindowManager.instance.ActiveWindow = helper;
             transform.parent.gameObject.SetActive(false);
         }
     }
@@ -47,5 +49,9 @@ public class WriteUser : MonoBehaviour
 
         string setting = JsonUtility.ToJson(settingData);
         File.WriteAllText(path + "/userSetting.Json", setting);
+
+        User.instance.userInfo = infoData;
+        User.instance.userSetting = settingData;
     }
+
 }
