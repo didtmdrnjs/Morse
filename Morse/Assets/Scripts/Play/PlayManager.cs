@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +9,8 @@ public class PlayManager : MonoBehaviour
 
     public Dictionary<char, char[]> morse;
 
-    private const char s = '��';
-    private const char l = '��';
+    private const char s = '·';
+    private const char l = '―';
 
     public float bpm;
     public string map;
@@ -47,15 +47,31 @@ public class PlayManager : MonoBehaviour
         else Destroy(gameObject);
         morse = new Dictionary<char, char[]>()
         {
-            {'A', new char[] {s, l} }, {'B', new char[] {l, s, s, s} }, {'C', new char[] {l, s, l, s} },
-            {'D', new char[] {l, s, s} }, {'E', new char[] {s} }, {'F', new char[] {s, s, l, s } },
-            {'G', new char[] { l, l, s } }, {'H', new char[] { s, s, s, s } }, {'I', new char[] { s, s } },
-            {'J', new char[] { s, l, l, l } }, {'K', new char[] { l, s, l } }, {'L', new char[] { s, l, s, s } },
-            {'M', new char[] { l, l } }, {'N', new char[] { l, s } }, {'O', new char[] { l, l, l } },
-            {'P', new char[] { s, l, l, s } }, {'Q', new char[] { l, l, s, l } }, {'R', new char[] { s, l, s } },
-            {'S', new char[] { s, s, s } }, {'T', new char[] { l } }, {'U', new char[] { s, s, l } },
-            {'V', new char[] { s, s, s, l } }, {'W', new char[] { s, l, l } }, {'X', new char[] { l, s, s, l } },
-            {'Y', new char[] { l, s, l, l } }, {'Z', new char[] { l, l, s, s } },
+            {'A', new char[] {s, l} }, {'B', new char[] {l, s, s, s} }, {'C', new char[] {l, s, l, s} },　{'D', new char[] {l, s, s} }, {'E', new char[] {s} }, 
+            {'F', new char[] {s, s, l, s } },　{'G', new char[] { l, l, s } }, {'H', new char[] { s, s, s, s } }, {'I', new char[] { s, s } },　{'J', new char[] { s, l, l, l } },
+            {'K', new char[] { l, s, l } }, {'L', new char[] { s, l, s, s } },　{'M', new char[] { l, l } }, {'N', new char[] { l, s } }, {'O', new char[] { l, l, l } },
+            {'P', new char[] { s, l, l, s } }, {'Q', new char[] { l, l, s, l } }, {'R', new char[] { s, l, s } },　{'S', new char[] { s, s, s } }, {'T', new char[] { l } }, 
+            {'U', new char[] { s, s, l } },　{'V', new char[] { s, s, s, l } }, {'W', new char[] { s, l, l } }, {'X', new char[] { l, s, s, l } },　{'Y', new char[] { l, s, l, l } }, 
+            {'Z', new char[] { l, l, s, s } },
+
+            {'ア', new char[] { l, l, s, l, l } }, {'イ', new char[] { s, l } }, {'ウ', new char[] { s, s, l } }, {'エ', new char[] { l, s, l, l, l } }, {'オ', new char[] { s, l, s, s, s } },
+            {'カ', new char[] { s, l, s, s } }, {'キ', new char[] { l, s, l, s, s } }, {'ク', new char[] { s, s, s, l } }, {'ケ', new char[] { l, s, l, l } }, {'コ', new char[] { l, l, l, l } },
+            {'サ', new char[] { l, s, l, s, l } }, {'シ', new char[] { l, l, s, l, s } }, {'ス', new char[] { l, l, l, s, l } }, {'セ', new char[] { s, l, l, l, s } }, {'ソ', new char[] { l, l, l, s } },
+            {'タ', new char[] { l, s } }, {'チ', new char[] { s, s, l, s } }, {'ツ', new char[] { s, l, l, s } }, {'テ', new char[] { s, l, s, l, l } }, {'ト', new char[] { s, s, l, s, s } },
+            {'ナ', new char[] { s, l, s } }, {'ニ', new char[] { l, s, l, s } }, {'ヌ', new char[] { s, s, s, s } }, {'ネ', new char[] { l, l, s, l } }, {'ノ', new char[] { s, s, l, l } },
+            {'ハ', new char[] { l, s, s, s } }, {'ヒ', new char[] { l, l, s, s, l } }, {'フ', new char[] { l, l, s, s } }, {'ヘ', new char[] { s } }, {'ホ', new char[] { l, s, s } },
+            {'マ', new char[] { l, s, s, l } }, {'ミ', new char[] { s, s, l, s, l } }, {'ム', new char[] { l } }, {'メ', new char[] { l, s, s, s, l } }, {'モ', new char[] { l, s, s, l, s } },
+            {'ヤ', new char[] { s, l, l } }, {'ユ', new char[] { l, s, s, l, l } }, {'ヨ', new char[] { l, l } }, {'ラ', new char[] { s, s, s } }, {'リ', new char[] { l, l, s } },
+            {'ル', new char[] { l, s, l, l, s } }, {'レ', new char[] { l, l, l } }, {'ロ', new char[] { s, l, s, l } }, {'ワ', new char[] { l, s, l } }, {'ヰ', new char[] { s, l, s, s, l } },
+            {'ヱ', new char[] { s, l, l, s, s } }, {'ヲ', new char[] { s, l, l, l } }, {'ン', new char[] { s, l, s, l, s } }, {'゛', new char[] { s, s } }, {'゜', new char[] { s, s, l, l, s } },
+
+            {'ㄱ', new char[] { s, l, s, s } }, {'ㄴ', new char[] { s, s, l, s } }, {'ㄷ', new char[] { l, s, s, s } }, {'ㄹ', new char[] { s, s, s, l } }, 
+            {'ㅁ', new char[] { l, l } }, {'ㅂ', new char[] { s, l, l } }, {'ㅅ', new char[] { l, l, s } }, {'ㅇ', new char[] { l, s, l } },
+            {'ㅈ', new char[] { s, l, l, s } }, {'ㅊ', new char[] { l, s, l, s } }, {'ㅋ', new char[] { l, s, s, l } }, {'ㅌ', new char[] { l, l, s, s } },
+            {'ㅍ', new char[] { l, l, l } }, {'ㅎ', new char[] { s, l, l, l } }, {'ㅏ', new char[] { s } }, {'ㅑ', new char[] { s, s } },
+            {'ㅓ', new char[] { l } }, {'ㅕ', new char[] { s, s, s } }, {'ㅗ', new char[] { s, l } }, {'ㅛ', new char[] { l, s } },
+            {'ㅜ', new char[] { s, s, s, s } }, {'ㅠ', new char[] { s, l, s } }, {'ㅡ', new char[] { l, s, s } }, {'ㅣ', new char[] { s, s, l } },
+            {'ㅐ', new char[] { l, l, s, l } }, {'ㅔ', new char[] { l, s, l, l } },
             {' ', new char[] { ' ' } }
         };
     }

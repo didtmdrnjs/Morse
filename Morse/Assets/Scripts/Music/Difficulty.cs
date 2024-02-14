@@ -22,9 +22,18 @@ public class Difficulty : MonoBehaviour
 
     private void Start()
     {
-        SetDifficultyEasy(leftEasy, leftHard, leftDifficulty);
-        SetDifficultyEasy(centerEasy, centerHard, centerDifficulty);
-        SetDifficultyEasy(rightEasy, rightHard, rightDifficulty);
+        if (GameManager.instance.difficulty == 1)
+        {
+            SetDifficultyHard(leftEasy, leftHard, leftDifficulty);
+            SetDifficultyHard(centerEasy, centerHard, centerDifficulty);
+            SetDifficultyHard(rightEasy, rightHard, rightDifficulty);
+        }
+        else
+        {
+            SetDifficultyEasy(leftEasy, leftHard, leftDifficulty);
+            SetDifficultyEasy(centerEasy, centerHard, centerDifficulty);
+            SetDifficultyEasy(rightEasy, rightHard, rightDifficulty);
+        }
     }
 
     private void Update()

@@ -21,11 +21,10 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            difficulty = 0;
+            mode = EMode.OneWord;
         }
         else if (instance != this) Destroy(gameObject);
-
-        difficulty = 0;
-        mode = EMode.OneWord;
     }
 
     private void Update()

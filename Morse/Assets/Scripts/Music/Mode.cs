@@ -14,10 +14,18 @@ public class Mode : MonoBehaviour
 
     private void Start()
     {
-        GameManager.instance.mode = EMode.OneWord;
-        left.sprite = mode_1;
-        center.sprite = mode_1;
-        right.sprite = mode_1;
+        if (GameManager.instance.mode == EMode.OneWord)
+        {
+            left.sprite = mode_1;
+            center.sprite = mode_1;
+            right.sprite = mode_1;
+        }
+        else
+        {
+            left.sprite = mode_2;
+            center.sprite = mode_2;
+            right.sprite = mode_2;
+        }
     }
 
     private void Update()

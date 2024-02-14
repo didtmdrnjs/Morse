@@ -21,6 +21,7 @@ public class Images : MonoBehaviour
         yield return new WaitForSeconds(5f);
         FaidOut();
         idx++;
+        if (idx >= imgs.Count) idx = 0;
         StartCoroutine(ShowImg());
     }
 
