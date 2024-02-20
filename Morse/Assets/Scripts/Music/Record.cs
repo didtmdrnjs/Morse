@@ -11,7 +11,7 @@ public class Record : MonoBehaviour
 {
     private void Update()
     {
-        string path = Application.dataPath + "/Music/" +
+        string path = "file://" + Application.streamingAssetsPath + "/Music/" +
                 MusicInfo.instance.datas[MusicInfo.instance.currentMusicIndex].name + "/" +
                 (GameManager.instance.mode == EMode.OneWord ? "One" : "Two") +
                 (GameManager.instance.difficulty == 0 ? "Easy" : "Hard") + ".json";

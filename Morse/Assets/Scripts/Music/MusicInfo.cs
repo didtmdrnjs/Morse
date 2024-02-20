@@ -10,11 +10,12 @@ public class MusicInfo : MonoBehaviour
 {
     public static MusicInfo instance;
 
-    private const string version_url = "https://script.google.com/macros/s/AKfycbxlE73a8Zy4xU3rwfoK8w8MDYjAAUHBuDJYHEwoNbYJrzEBqIMFMINjTkryXG0WXjwr/exec";
+    private const string version_url = "https://script.google.com/macros/s/AKfycbzqAVGUvdKlYeGC8bs911qjuwxralWGY-wTrB-RJR_SLW1lImBfpP98WS9oqAoXq5N_/exec";
     private const string musicData_url = "https://script.google.com/macros/s/AKfycbzLyyMJidozrmtVTcKZQkCkU86cy3VXbuNasOZVfcAvh9vg7LOQflV-dqc8JeeKJ3Sr/exec";
 
     private string musicDirectory;
     private string version;
+    private int musicCount;
 
     public List<MusicData> datas = new();
     public List<RecordData[,]> records = new List<RecordData[,]>();
@@ -38,7 +39,7 @@ public class MusicInfo : MonoBehaviour
 
     private void Start()
     {
-        musicDirectory = Application.dataPath + "/Music";
+        musicDirectory = Application.streamingAssetsPath + "/Music";
 
         if (!Directory.Exists(musicDirectory))
         {
@@ -67,11 +68,11 @@ public class MusicInfo : MonoBehaviour
         UnityWebRequest www = UnityWebRequest.Get(version_url);
         yield return www.SendWebRequest();
 
-        version = File.ReadAllText(Application.dataPath + "/Json/version.txt");
+        version = File.ReadAllText(Application.streamingAssetsPath + "/Json/version.txt");
 
         if (version != www.downloadHandler.text)
         {
-            File.WriteAllText(Application.dataPath + "/Json/version.txt", www.downloadHandler.text);
+            File.WriteAllText(Application.streamingAssetsPath + "/Json/version.txt", www.downloadHandler.text);
             StartCoroutine(DownLoadMusicData());
         }
         else StartCoroutine(ReadJson());
@@ -103,7 +104,7 @@ public class MusicInfo : MonoBehaviour
 
             datas[idx].image = sprite;
 
-            if (idx == datas.Count - 1)
+            if (idx == musicCount - 1)
             {
                 currentLoadElement++;
                 isLoadTotal = true;
@@ -116,7 +117,6 @@ public class MusicInfo : MonoBehaviour
 
     IEnumerator CheckImage()
     {
-        Debug.Log(datas[datas.Count - 1].image);
         if (datas[datas.Count - 1].image != null) StartCoroutine(SaveData());
         else yield return StartCoroutine(CheckImage());
     }
@@ -186,6 +186,7 @@ public class MusicInfo : MonoBehaviour
     private void SetMusicData(string Data)
     {
         string[] data = Data.Split(",");
+        musicCount = data.Length;
         for (int i = 0; i < data.Length; i++)
         {
             string[] info = data[i].Split(" ");

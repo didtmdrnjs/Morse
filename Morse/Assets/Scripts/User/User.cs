@@ -14,8 +14,8 @@ public class User : MonoBehaviour
     public UserSetting userSetting;
     public LevelData levels;
 
-    public string userPath = Application.dataPath + "/User";
-    public string lavelDataPath = Application.dataPath + "/Json/LevelData.json";
+    public string userPath = "file://" + Application.streamingAssetsPath + "/User";
+    public string lavelDataPath = "file://" + Application.streamingAssetsPath + "/Json/LevelData.json";
 
     private void Start()
     {

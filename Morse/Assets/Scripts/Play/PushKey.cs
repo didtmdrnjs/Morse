@@ -1,11 +1,4 @@
-
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.TerrainTools;
 using UnityEngine;
 
 public class PushKey : MonoBehaviour
