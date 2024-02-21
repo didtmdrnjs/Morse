@@ -14,8 +14,8 @@ public class User : MonoBehaviour
     public UserSetting userSetting;
     public LevelData levels;
 
-    public string userPath = "file://" + Application.streamingAssetsPath + "/User";
-    public string lavelDataPath = "file://" + Application.streamingAssetsPath + "/Json/LevelData.json";
+    public string userPath;
+    public string levelDataPath = Application.streamingAssetsPath + "/Json/LevelData.json";
 
     private void Start()
     {
@@ -29,6 +29,8 @@ public class User : MonoBehaviour
         userInfo = new UserInfo();
         userSetting = new UserSetting();
         levels = new LevelData();
+
+        userPath = Application.streamingAssetsPath + "/User";
 
         SetUser();
     }
@@ -77,7 +79,7 @@ public class User : MonoBehaviour
     {
         yield return null;
 
-        string data = File.ReadAllText(lavelDataPath);
+        string data = File.ReadAllText(levelDataPath);
         levels = JsonUtility.FromJson<LevelData>(data);
     }
 

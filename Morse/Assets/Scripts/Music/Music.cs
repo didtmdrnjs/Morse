@@ -48,13 +48,11 @@ public class Music : MonoBehaviour
             if (!isMove && Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 StartCoroutine(Move(1));
-                MusicInfo.instance.currentMusicIndex--;
                 isChangeMusic = true;
             }
             else if (!isMove && Input.GetKeyDown(KeyCode.RightArrow))
             {
                 StartCoroutine(Move(-1));
-                MusicInfo.instance.currentMusicIndex++;
                 isChangeMusic = true;
             }
         }
@@ -73,7 +71,9 @@ public class Music : MonoBehaviour
         else
         {
             isMove = false;
+            MusicInfo.instance.currentMusicIndex += d * -1;
             yield return new WaitForSeconds(0.0001f);
+            Debug.Log(d * -1);
             rect.anchorMin = new Vector2(0, 0);
             rect.anchorMax = new Vector2(1, 1);
         }

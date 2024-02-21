@@ -85,7 +85,7 @@ public class Result : MonoBehaviour
 
     private void SaveRecord()
     {
-        string path = "file://" + Application.streamingAssetsPath + "/Music/" + data.name + "/" + (GameManager.instance.mode == EMode.OneWord ? "One" : "Two") + (GameManager.instance.difficulty == 0 ? "Easy" : "Hard") + ".json";
+        string path = Application.streamingAssetsPath + "/Music/" + data.name + "/" + (GameManager.instance.mode == EMode.OneWord ? "One" : "Two") + (GameManager.instance.difficulty == 0 ? "Easy" : "Hard") + ".json";
         if (!File.Exists(path)) StartCoroutine(Save(path));
         else StartCoroutine(ReadScore(path));
     }

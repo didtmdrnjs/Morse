@@ -95,7 +95,6 @@ public class MusicInfo : MonoBehaviour
         else
         {
             Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-            Debug.Log(DownloadHandlerTexture.GetContent(www));
 
             datas[idx].pngBytes = texture.EncodeToPNG();
 
